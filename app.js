@@ -5,7 +5,7 @@ const PORT = process.env.PORT || 3000;
 app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
-  res.send("<h1>Under Construction</h1>");
+  res.render("index", { siteName: "Fakebook" });
 });
 
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
