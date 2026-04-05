@@ -57,11 +57,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get("/", async (req, res) => {
+  const isUserLoggedIn = req.isAuthenticated();
   try {
-    res.json({
-      message: "Welcome to Odinbook",
-      user: req.user?.username || "You're not logged in.",
-    });
+    res.render("index", { isUserLoggedIn });
   } catch (error) {
     console.error(error);
     res.status(500).send("Database connection error");
@@ -103,6 +101,16 @@ app.post(
     failureRedirect: "/login",
   })
 );
+
+app.post("/logout", (req, res, next) => {
+  req.logout(function (error) {
+    if (error) {
+      return next(error);
+    }
+
+    res.redirect("/");
+  });
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
