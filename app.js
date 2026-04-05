@@ -4,6 +4,20 @@ const prisma = require("./db/prisma");
 
 app.set("view engine", "ejs");
 
+const session = require("express-session");
+const passport = require("passport");
+
+app.use(express.urlencoded({ extended: false }));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.get("/", async (req, res) => {
   try {
     const userCount = await prisma.user.count();
