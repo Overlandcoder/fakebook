@@ -6,6 +6,7 @@ app.set("view engine", "ejs");
 
 const session = require("express-session");
 const passport = require("passport");
+const bcrypt = require("bcryptjs");
 
 app.use(express.urlencoded({ extended: false }));
 app.use(
@@ -34,6 +35,30 @@ app.get("/", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send("Database connection error");
+  }
+});
+
+app.get("/signup", (req, res) => {
+  res.render("signup");
+});
+
+app.post("/signup", async (req, res) => {
+  const { email, username, password } = req.body;
+
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    await prisma.user.create({
+      data: {
+        email,
+        username,
+        password: hashedPassword,
+      },
+    });
+    res.redirect("/");
+  } catch (error) {
+    console.error("Error", error);
+    res.status(500).send({ error: "Failed to create user" });
   }
 });
 
