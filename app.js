@@ -56,10 +56,14 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  next();
+});
+
 app.get("/", async (req, res) => {
-  const isUserLoggedIn = req.isAuthenticated();
   try {
-    res.render("index", { isUserLoggedIn });
+    res.render("index");
   } catch (error) {
     console.error(error);
     res.status(500).send("Database connection error");

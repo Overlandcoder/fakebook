@@ -8,7 +8,8 @@
   <body>
     <h1>Welcome to Fakebook</h1>
     <p>A brand new way to socialize.</p>
-    <% if (isUserLoggedIn) { %>
+    <% if (currentUser) { %>
+    <p>Logged in as: <%= currentUser.username %></p>
     <form action="/logout" method="POST">
       <button type="submit">Log Out</button>
     </form>
