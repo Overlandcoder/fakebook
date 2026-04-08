@@ -116,5 +116,30 @@ app.post("/logout", (req, res, next) => {
   });
 });
 
+app.get("/:username/posts/new", (req, res) => {
+  res.render("createPost");
+});
+
+app.post("/posts", async (req, res) => {
+  if (!req.isAuthenticated()) {
+    res.status(401).send("Please log in to post.");
+  }
+  const { content } = req.body;
+  try {
+    await prisma.post.create({
+      data: {
+        content,
+        author: {
+          connect: { id: req.user.id },
+        },
+      },
+    });
+    res.redirect("/");
+  } catch (error) {
+    console.error("Error", error);
+    res.status(500).send({ error: "Failed to create new post" });
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
