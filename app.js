@@ -141,7 +141,7 @@ app.post("/posts", authenticatedUser, async (req, res) => {
     res.redirect("/");
   } catch (error) {
     console.error("Error", error);
-    res.status(500).send({ error: "Failed to create new post" });
+    res.status(500).render("createPost", { error: "Failed to create post" });
   }
 });
 

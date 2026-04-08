@@ -1,3 +1,7 @@
+<% if (locals.error) { %>
+<p><%= error %></p>
+<% } %>
+
 <form action="/posts" method="POST">
   <label for="content">Write your post below:</label>
   <textarea id="content" name="content"></textarea>
