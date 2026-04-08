@@ -100,7 +100,7 @@ app.post("/signup", async (req, res) => {
     });
     res.redirect("/");
   } catch (error) {
-    console.error("Error", error);
+    console.error(error);
     res.status(500).send({ error: "Failed to create user" });
   }
 });
@@ -133,6 +133,7 @@ app.get("/posts/new", authenticatedUser, (req, res) => {
 
 app.post("/posts", authenticatedUser, async (req, res) => {
   const { content } = req.body;
+
   try {
     await prisma.post.create({
       data: {
@@ -144,8 +145,28 @@ app.post("/posts", authenticatedUser, async (req, res) => {
     });
     res.redirect("/");
   } catch (error) {
-    console.error("Error", error);
+    console.error(error);
     res.status(500).render("createPost", { error: "Failed to create post" });
+  }
+});
+
+app.get("/users/:username", async (req, res) => {
+  const { username } = req.params;
+
+  try {
+    const selectedUser = await prisma.user.findUnique({
+      where: { username: username },
+      include: { posts: true },
+    });
+
+    if (!selectedUser) {
+      return res.status(404).send("User not found");
+    }
+
+    res.render("profile", { profileUser: selectedUser });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server error");
   }
 });
 

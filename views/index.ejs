@@ -27,7 +27,9 @@
   <% if (allPosts.length > 0) { %>
     <% allPosts.forEach(post => { %>
       <div>
-        <strong><%= post.author.username %></strong>
+        <a href="/users/<%= post.author.username %>">
+          <%= post.author.username %>
+        </a>
         <small><%= post.createdAt.toLocaleString() %></small>
         <p><%= post.content %></p>
       </div>
