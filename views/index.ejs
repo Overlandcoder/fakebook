@@ -1,22 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fakebook</title>
-  </head>
-  <body>
-    <h1>Welcome to Fakebook</h1>
-    <p>A brand new way to socialize.</p>
-    <% if (currentUser) { %>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fakebook</title>
+</head>
+
+<body>
+  <h1>Welcome to Fakebook</h1>
+  <p>A brand new way to socialize.</p>
+
+  <% if (currentUser) { %>
     <p>Logged in as: <%= currentUser.username %></p>
     <a href="/posts/new">New Post</a>
     <form action="/logout" method="POST">
       <button type="submit">Log Out</button>
     </form>
-    <% } else { %>
+  <% } else { %>
     <a href="/signup">Sign Up</a>
     <a href="/login">Log In</a>
-    <% } %>
-  </body>
+  <% } %>
+
+  <h2>Recent Posts</h2>
+
+  <% if (allPosts.length > 0) { %>
+    <% allPosts.forEach(post => { %>
+      <div>
+        <strong><%= post.author.username %></strong>
+        <small><%= post.createdAt.toLocaleString() %></small>
+        <p><%= post.content %></p>
+      </div>
+    <% }) %>
+  <% } else { %>
+    <p>No posts yet. Be the first to post something!</p>
+  <% } %>
+</body>
+
 </html>

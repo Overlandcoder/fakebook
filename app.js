@@ -70,7 +70,11 @@ const authenticatedUser = (req, res, next) => {
 
 app.get("/", async (req, res) => {
   try {
-    res.render("index");
+    const allPosts = await prisma.post.findMany({
+      include: { author: true },
+      orderBy: { createdAt: "desc" },
+    });
+    res.render("index", { allPosts });
   } catch (error) {
     console.error(error);
     res.status(500).send("Database connection error");
