@@ -10,7 +10,7 @@
     <p>A brand new way to socialize.</p>
     <% if (currentUser) { %>
     <p>Logged in as: <%= currentUser.username %></p>
-    <a href="/<%= currentUser.username %>/posts/new">New Post</a>
+    <a href="/posts/new">New Post</a>
     <form action="/logout" method="POST">
       <button type="submit">Log Out</button>
     </form>

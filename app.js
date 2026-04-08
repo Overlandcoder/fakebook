@@ -61,6 +61,13 @@ app.use((req, res, next) => {
   next();
 });
 
+const authenticatedUser = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect("/login");
+};
+
 app.get("/", async (req, res) => {
   try {
     res.render("index");
@@ -116,14 +123,11 @@ app.post("/logout", (req, res, next) => {
   });
 });
 
-app.get("/:username/posts/new", (req, res) => {
+app.get("/posts/new", authenticatedUser, (req, res) => {
   res.render("createPost");
 });
 
-app.post("/posts", async (req, res) => {
-  if (!req.isAuthenticated()) {
-    res.status(401).send("Please log in to post.");
-  }
+app.post("/posts", authenticatedUser, async (req, res) => {
   const { content } = req.body;
   try {
     await prisma.post.create({
