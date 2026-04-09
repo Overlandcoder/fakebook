@@ -5,9 +5,11 @@ const session = require("express-session");
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
 const LocalStrategy = require("passport-local").Strategy;
+const methodOverride = require("method-override");
 
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
+app.use(methodOverride("_method"));
 
 passport.use(
   new LocalStrategy(
@@ -73,6 +75,7 @@ app.get("/", async (req, res) => {
     const allPosts = await prisma.post.findMany({
       include: {
         author: true,
+        likes: true,
         comments: {
           include: { author: true },
         },
@@ -216,6 +219,25 @@ app.post("/:postId/likes", authenticatedUser, async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send("Failed to like post");
+  }
+});
+
+app.delete("/:postId/likes", authenticatedUser, async (req, res) => {
+  const { postId } = req.params;
+
+  try {
+    await prisma.like.delete({
+      where: {
+        userId_postId: {
+          userId: req.user.id,
+          postId: parseInt(postId),
+        },
+      },
+    });
+    res.redirect("/");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Failed to unlike post");
   }
 });
 

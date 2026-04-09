@@ -33,9 +33,18 @@
         <small><%= post.createdAt.toLocaleString() %></small>
         <p><%= post.content %></p>
       </div>
-      <form action="/<%= post.id %>/likes" method="POST">
-        <button type="submit">Like</button>
-      </form>
+      <% if (currentUser) { %>
+        <% const hasUserLikedPost = post.likes.some(like => like.userId === currentUser.id) %>
+        <% if (hasUserLikedPost) { %>
+          <form action="/<%= post.id %>/likes?_method=DELETE" method="POST">
+            <button type="submit">Liked</button>
+          </form>
+        <% } else { %>
+          <form action="/<%= post.id %>/likes" method="POST">
+            <button type="submit">Like</button>
+          </form>
+        <% } %>
+      <% } %>
       <div>
         <% post.comments.forEach(comment => { %>
           <a href="/users/<%= comment.author.username %>">
