@@ -33,6 +33,9 @@
         <small><%= post.createdAt.toLocaleString() %></small>
         <p><%= post.content %></p>
       </div>
+      <form action="/<%= post.id %>/likes" method="POST">
+        <button type="submit">Like</button>
+      </form>
       <div>
         <% post.comments.forEach(comment => { %>
           <a href="/users/<%= comment.author.username %>">

@@ -178,7 +178,7 @@ app.get("/users/:username", async (req, res) => {
 app.post("/:postId/comments", authenticatedUser, async (req, res) => {
   const { content } = req.body;
   const { postId } = req.params;
-  console.log(req.params);
+
   try {
     await prisma.comment.create({
       data: {
@@ -195,6 +195,27 @@ app.post("/:postId/comments", authenticatedUser, async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send("Failed to leave comment");
+  }
+});
+
+app.post("/:postId/likes", authenticatedUser, async (req, res) => {
+  const { postId } = req.params;
+
+  try {
+    await prisma.like.create({
+      data: {
+        user: {
+          connect: { id: req.user.id },
+        },
+        post: {
+          connect: { id: parseInt(postId) },
+        },
+      },
+    });
+    res.redirect("/");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Failed to like post");
   }
 });
 
