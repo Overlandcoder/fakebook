@@ -33,6 +33,18 @@
         <small><%= post.createdAt.toLocaleString() %></small>
         <p><%= post.content %></p>
       </div>
+      <div>
+        <% post.comments.forEach(comment => { %>
+          <a href="/users/<%= comment.author.username %>">
+            <%= comment.author.username %>
+          </a>
+          <p><%= comment.content %></p>
+        <% }) %>
+      </div>
+      <form action="/<%= post.id %>/comments" method="POST">
+        <input type="text" id="content" name="content" placeholder="Leave a comment">
+        <button type="submit">Comment</button>
+      </form>
     <% }) %>
   <% } else { %>
     <p>No posts yet. Be the first to post something!</p>

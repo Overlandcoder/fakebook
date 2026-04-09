@@ -71,7 +71,12 @@ const authenticatedUser = (req, res, next) => {
 app.get("/", async (req, res) => {
   try {
     const allPosts = await prisma.post.findMany({
-      include: { author: true },
+      include: {
+        author: true,
+        comments: {
+          include: { author: true },
+        },
+      },
       orderBy: { createdAt: "desc" },
     });
     res.render("index", { allPosts });
@@ -167,6 +172,29 @@ app.get("/users/:username", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send("Server error");
+  }
+});
+
+app.post("/:postId/comments", authenticatedUser, async (req, res) => {
+  const { content } = req.body;
+  const { postId } = req.params;
+  console.log(req.params);
+  try {
+    await prisma.comment.create({
+      data: {
+        content,
+        author: {
+          connect: { id: req.user.id },
+        },
+        post: {
+          connect: { id: parseInt(postId) },
+        },
+      },
+    });
+    res.redirect("/");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Failed to leave comment");
   }
 });
 
