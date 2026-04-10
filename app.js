@@ -6,6 +6,7 @@ const passport = require("passport");
 const bcrypt = require("bcryptjs");
 const LocalStrategy = require("passport-local").Strategy;
 const methodOverride = require("method-override");
+const indexRouter = require("./routes/indexRouter");
 const postRouter = require("./routes/postRouter");
 const userRouter = require("./routes/userRouter");
 
@@ -65,75 +66,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/", async (req, res) => {
-  try {
-    const allPosts = await prisma.post.findMany({
-      include: {
-        author: true,
-        likes: req.user
-          ? {
-              where: { userId: req.user.id },
-            }
-          : false,
-        _count: { select: { likes: true } },
-        comments: {
-          include: { author: true },
-        },
-      },
-      orderBy: { createdAt: "desc" },
-    });
-    res.render("index", { allPosts });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Error connecting to database");
-  }
-});
-
-app.get("/signup", (req, res) => {
-  res.render("signup");
-});
-
-app.post("/signup", async (req, res) => {
-  const { email, username, password } = req.body;
-
-  try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    await prisma.user.create({
-      data: {
-        email,
-        username,
-        password: hashedPassword,
-      },
-    });
-    res.redirect("/");
-  } catch (error) {
-    console.error(error);
-    res.status(500).send({ error: "Failed to create user" });
-  }
-});
-
-app.get("/login", (req, res) => {
-  res.render("login");
-});
-
-app.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/login",
-  })
-);
-
-app.post("/logout", (req, res, next) => {
-  req.logout(function (error) {
-    if (error) {
-      return next(error);
-    }
-
-    res.redirect("/");
-  });
-});
+app.use("/", indexRouter);
 
 app.use("/posts", postRouter);
 
