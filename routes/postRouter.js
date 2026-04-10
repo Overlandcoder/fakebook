@@ -3,11 +3,13 @@ const postRouter = Router();
 const prisma = require("../db/prisma");
 const authenticatedUser = require("../middleware/auth");
 
-postRouter.get("/new", authenticatedUser, (req, res) => {
+postRouter.use(authenticatedUser);
+
+postRouter.get("/new", (req, res) => {
   res.render("createPost");
 });
 
-postRouter.post("/", authenticatedUser, async (req, res) => {
+postRouter.post("/", async (req, res) => {
   const { content } = req.body;
 
   try {
@@ -26,7 +28,7 @@ postRouter.post("/", authenticatedUser, async (req, res) => {
   }
 });
 
-postRouter.post("/:postId/comments", authenticatedUser, async (req, res) => {
+postRouter.post("/:postId/comments", async (req, res) => {
   const { content } = req.body;
   const { postId } = req.params;
 
@@ -49,7 +51,7 @@ postRouter.post("/:postId/comments", authenticatedUser, async (req, res) => {
   }
 });
 
-postRouter.post("/:postId/likes", authenticatedUser, async (req, res) => {
+postRouter.post("/:postId/likes", async (req, res) => {
   const { postId } = req.params;
 
   try {
@@ -70,7 +72,7 @@ postRouter.post("/:postId/likes", authenticatedUser, async (req, res) => {
   }
 });
 
-postRouter.delete("/:postId/likes", authenticatedUser, async (req, res) => {
+postRouter.delete("/:postId/likes", async (req, res) => {
   const { postId } = req.params;
 
   try {
