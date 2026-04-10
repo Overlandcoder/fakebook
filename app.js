@@ -75,7 +75,12 @@ app.get("/", async (req, res) => {
     const allPosts = await prisma.post.findMany({
       include: {
         author: true,
-        likes: true,
+        likes: req.user
+          ? {
+              where: { userId: req.user.id },
+            }
+          : false,
+        _count: { select: { likes: true } },
         comments: {
           include: { author: true },
         },
@@ -85,7 +90,7 @@ app.get("/", async (req, res) => {
     res.render("index", { allPosts });
   } catch (error) {
     console.error(error);
-    res.status(500).send("Database connection error");
+    res.status(500).send("Error connecting to database");
   }
 });
 

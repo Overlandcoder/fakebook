@@ -34,8 +34,8 @@
         <p><%= post.content %></p>
       </div>
       <% if (currentUser) { %>
-        <% const hasUserLikedPost = post.likes.some(like => like.userId === currentUser.id) %>
-        <% if (hasUserLikedPost) { %>
+        <% const hasUserLiked = post.likes.length > 0 %>
+        <% if (hasUserLiked) { %>
           <form action="/<%= post.id %>/likes?_method=DELETE" method="POST">
             <button type="submit">Liked</button>
           </form>
@@ -45,6 +45,7 @@
           </form>
         <% } %>
       <% } %>
+      <p><%= post._count.likes %> <%= post._count.likes === 1 ? "like" : "likes" %></p>
       <div>
         <% post.comments.forEach(comment => { %>
           <a href="/users/<%= comment.author.username %>">
