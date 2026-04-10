@@ -7,6 +7,7 @@ const bcrypt = require("bcryptjs");
 const LocalStrategy = require("passport-local").Strategy;
 const methodOverride = require("method-override");
 const postRouter = require("./routes/postRouter");
+const userRouter = require("./routes/userRouter");
 
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
@@ -136,25 +137,7 @@ app.post("/logout", (req, res, next) => {
 
 app.use("/posts", postRouter);
 
-app.get("/users/:username", async (req, res) => {
-  const { username } = req.params;
-
-  try {
-    const selectedUser = await prisma.user.findUnique({
-      where: { username: username },
-      include: { posts: true },
-    });
-
-    if (!selectedUser) {
-      return res.status(404).send("User not found");
-    }
-
-    res.render("profile", { profileUser: selectedUser });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Server error");
-  }
-});
+app.use("/users", userRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
