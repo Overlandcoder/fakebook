@@ -2,10 +2,7 @@
 <div>
   <% if (profileUser.posts.length > 0) { %>
     <% profileUser.posts.forEach(post => { %>
-      <div>
-        <small><%= post.createdAt.toLocaleString() %></small>
-        <p><%= post.content %></p>
-      </div>
+      <%- include("partials/post", { post: post }) %>
     <% }) %>
   <% } else { %>
     <p><%= profileUser.username %> has no posts.</p>

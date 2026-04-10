@@ -8,7 +8,19 @@ userRouter.get("/:username", async (req, res) => {
   try {
     const selectedUser = await prisma.user.findUnique({
       where: { username: username },
-      include: { posts: true },
+      include: {
+        posts: {
+          include: {
+            author: true,
+            likes: req.user ? { where: { userId: req.user.id } } : false,
+            _count: { select: { likes: true } },
+            comments: {
+              include: { author: true },
+            },
+          },
+          orderBy: { createdAt: "desc" },
+        },
+      },
     });
 
     if (!selectedUser) {

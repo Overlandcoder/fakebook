@@ -9,11 +9,7 @@ indexRouter.get("/", async (req, res) => {
     const allPosts = await prisma.post.findMany({
       include: {
         author: true,
-        likes: req.user
-          ? {
-              where: { userId: req.user.id },
-            }
-          : false,
+        likes: req.user ? { where: { userId: req.user.id } } : false,
         _count: { select: { likes: true } },
         comments: {
           include: { author: true },

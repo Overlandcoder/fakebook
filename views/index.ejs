@@ -26,38 +26,7 @@
 
   <% if (allPosts.length > 0) { %>
     <% allPosts.forEach(post => { %>
-      <div>
-        <a href="/users/<%= post.author.username %>">
-          <%= post.author.username %>
-        </a>
-        <small><%= post.createdAt.toLocaleString() %></small>
-        <p><%= post.content %></p>
-      </div>
-      <% if (currentUser) { %>
-        <% const hasUserLiked = post.likes.length > 0 %>
-        <% if (hasUserLiked) { %>
-          <form action="/posts/<%= post.id %>/likes?_method=DELETE" method="POST">
-            <button type="submit">Liked</button>
-          </form>
-        <% } else { %>
-          <form action="/posts/<%= post.id %>/likes" method="POST">
-            <button type="submit">Like</button>
-          </form>
-        <% } %>
-      <% } %>
-      <p><%= post._count.likes %> <%= post._count.likes === 1 ? "like" : "likes" %></p>
-      <div>
-        <% post.comments.forEach(comment => { %>
-          <a href="/users/<%= comment.author.username %>">
-            <%= comment.author.username %>
-          </a>
-          <p><%= comment.content %></p>
-        <% }) %>
-      </div>
-      <form action="/posts/<%= post.id %>/comments" method="POST">
-        <input type="text" id="content" name="content" placeholder="Leave a comment">
-        <button type="submit">Comment</button>
-      </form>
+      <%- include("partials/post", { post: post }) %>
     <% }) %>
   <% } else { %>
     <p>No posts yet. Be the first to post something!</p>
