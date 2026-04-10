@@ -1,10 +1,9 @@
 const express = require("express");
 const app = express();
 const prisma = require("./db/prisma");
-const session = require("express-session");
 const passport = require("passport");
-const bcrypt = require("bcryptjs");
-const LocalStrategy = require("passport-local").Strategy;
+const session = require("express-session");
+require("./config/passport");
 const methodOverride = require("method-override");
 const indexRouter = require("./routes/indexRouter");
 const postRouter = require("./routes/postRouter");
@@ -13,43 +12,6 @@ const userRouter = require("./routes/userRouter");
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride("_method"));
-
-passport.use(
-  new LocalStrategy(
-    { usernameField: "username" },
-    async (username, password, done) => {
-      try {
-        const user = await prisma.user.findUnique({ where: { username } });
-
-        if (!user) {
-          return done(null, false, { message: "Username not found" });
-        }
-
-        const match = await bcrypt.compare(password, user.password);
-        if (!match) {
-          return done(null, false, { message: "Incorrect password" });
-        }
-
-        return done(null, user);
-      } catch (error) {
-        return done(error);
-      }
-    }
-  )
-);
-
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await prisma.user.findUnique({ where: { id } });
-    done(null, user);
-  } catch (error) {
-    done(error);
-  }
-});
 
 app.use(
   session({
