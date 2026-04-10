@@ -36,11 +36,11 @@
       <% if (currentUser) { %>
         <% const hasUserLiked = post.likes.length > 0 %>
         <% if (hasUserLiked) { %>
-          <form action="/<%= post.id %>/likes?_method=DELETE" method="POST">
+          <form action="/posts/<%= post.id %>/likes?_method=DELETE" method="POST">
             <button type="submit">Liked</button>
           </form>
         <% } else { %>
-          <form action="/<%= post.id %>/likes" method="POST">
+          <form action="/posts/<%= post.id %>/likes" method="POST">
             <button type="submit">Like</button>
           </form>
         <% } %>
@@ -54,7 +54,7 @@
           <p><%= comment.content %></p>
         <% }) %>
       </div>
-      <form action="/<%= post.id %>/comments" method="POST">
+      <form action="/posts/<%= post.id %>/comments" method="POST">
         <input type="text" id="content" name="content" placeholder="Leave a comment">
         <button type="submit">Comment</button>
       </form>

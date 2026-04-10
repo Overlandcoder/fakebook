@@ -6,6 +6,7 @@ const passport = require("passport");
 const bcrypt = require("bcryptjs");
 const LocalStrategy = require("passport-local").Strategy;
 const methodOverride = require("method-override");
+const postRouter = require("./routes/postRouter");
 
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
@@ -62,13 +63,6 @@ app.use((req, res, next) => {
   res.locals.currentUser = req.user;
   next();
 });
-
-const authenticatedUser = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect("/login");
-};
 
 app.get("/", async (req, res) => {
   try {
@@ -140,28 +134,7 @@ app.post("/logout", (req, res, next) => {
   });
 });
 
-app.get("/posts/new", authenticatedUser, (req, res) => {
-  res.render("createPost");
-});
-
-app.post("/posts", authenticatedUser, async (req, res) => {
-  const { content } = req.body;
-
-  try {
-    await prisma.post.create({
-      data: {
-        content,
-        author: {
-          connect: { id: req.user.id },
-        },
-      },
-    });
-    res.redirect("/");
-  } catch (error) {
-    console.error(error);
-    res.status(500).render("createPost", { error: "Failed to create post" });
-  }
-});
+app.use("/posts", postRouter);
 
 app.get("/users/:username", async (req, res) => {
   const { username } = req.params;
@@ -180,69 +153,6 @@ app.get("/users/:username", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send("Server error");
-  }
-});
-
-app.post("/:postId/comments", authenticatedUser, async (req, res) => {
-  const { content } = req.body;
-  const { postId } = req.params;
-
-  try {
-    await prisma.comment.create({
-      data: {
-        content,
-        author: {
-          connect: { id: req.user.id },
-        },
-        post: {
-          connect: { id: parseInt(postId) },
-        },
-      },
-    });
-    res.redirect("/");
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Failed to leave comment");
-  }
-});
-
-app.post("/:postId/likes", authenticatedUser, async (req, res) => {
-  const { postId } = req.params;
-
-  try {
-    await prisma.like.create({
-      data: {
-        user: {
-          connect: { id: req.user.id },
-        },
-        post: {
-          connect: { id: parseInt(postId) },
-        },
-      },
-    });
-    res.redirect("/");
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Failed to like post");
-  }
-});
-
-app.delete("/:postId/likes", authenticatedUser, async (req, res) => {
-  const { postId } = req.params;
-
-  try {
-    await prisma.like.delete({
-      where: {
-        userId_postId: {
-          userId: req.user.id,
-          postId: parseInt(postId),
-        },
-      },
-    });
-    res.redirect("/");
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Failed to unlike post");
   }
 });
 
