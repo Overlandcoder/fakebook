@@ -21,6 +21,8 @@ model User {
   posts    Post[]
   comments Comment[]
   likes Like[]
+  followers User[] @relation("UserFollows")
+  following User[] @relation("UserFollows")
 }
 
 model Post {
