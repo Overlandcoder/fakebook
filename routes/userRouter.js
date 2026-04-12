@@ -43,6 +43,10 @@ userRouter.get("/:username", async (req, res) => {
 userRouter.post("/:username/follow", async (req, res) => {
   const { username } = req.params;
 
+  if (res.user.username === username) {
+    return res.status(400).send("Unable to follow yourself");
+  }
+
   try {
     await prisma.user.update({
       where: { id: req.user.id },

@@ -1,7 +1,7 @@
 <h2><%= profileUser.username %></h2>
 <% numFollowers = profileUser._count.followers %>
 <p><%= numFollowers %> <%= numFollowers === 1 ? "follower" : "followers" %></p>
-<% if (currentUser) { %>
+<% if (currentUser && currentUser.id !== profileUser.id) { %>
   <% if (isFollowing) { %>
     <form action="/users/<%= profileUser.username %>/follow?_method=DELETE" method="POST">
       <button type="submit">Unfollow</button>
