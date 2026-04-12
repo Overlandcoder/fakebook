@@ -1,4 +1,17 @@
 <h2><%= profileUser.username %></h2>
+<% numFollowers = profileUser._count.followers %>
+<p><%= numFollowers %> <%= numFollowers === 1 ? "follower" : "followers" %></p>
+<% if (currentUser) { %>
+  <% if (isFollowing) { %>
+    <form action="/users/<%= profileUser.username %>/follow?_method=DELETE" method="POST">
+      <button type="submit">Unfollow</button>
+    </form>
+  <% } else { %>
+    <form action="/users/<%= profileUser.username %>/follow" method="POST">
+      <button type="submit">Follow</button>
+    </form>
+  <% } %>
+<% } %>
 <div>
   <% if (profileUser.posts.length > 0) { %>
     <% profileUser.posts.forEach(post => { %>
