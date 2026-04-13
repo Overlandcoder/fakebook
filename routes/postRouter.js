@@ -28,6 +28,20 @@ postRouter.post("/", async (req, res) => {
   }
 });
 
+postRouter.delete("/:postId", async (req, res) => {
+  const { postId } = req.params;
+
+  try {
+    await prisma.post.delete({
+      where: { id: parseInt(postId) },
+    });
+    res.redirect("/");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Failed to delete post");
+  }
+});
+
 postRouter.post("/:postId/comments", async (req, res) => {
   const { content } = req.body;
   const { postId } = req.params;

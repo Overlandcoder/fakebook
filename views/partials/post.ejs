@@ -4,6 +4,11 @@
   </a>
   <small><%= post.createdAt.toLocaleString() %></small>
   <p><%= post.content %></p>
+  <% if (currentUser?.username === post.author.username) { %>
+    <form action="/posts/<%= post.id %>?_method=DELETE" method="POST">
+      <button type="submit">Delete Post</button>
+    </form>
+  <% } %>
 </div>
 <% if (currentUser) { %>
   <% const hasUserLiked = post.likes.length > 0 %>
