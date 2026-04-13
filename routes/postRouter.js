@@ -32,9 +32,20 @@ postRouter.delete("/:postId", async (req, res) => {
   const { postId } = req.params;
 
   try {
+    const post = await prisma.post.findUnique({
+      where: { id: parseInt(postId) },
+    });
+
+    if (!post) return res.status(404).send("Post not found");
+
+    if (post.authorId !== req.user.id) {
+      return res.status(403).send("Permission denied - unable to delete post");
+    }
+
     await prisma.post.delete({
       where: { id: parseInt(postId) },
     });
+
     res.redirect("/");
   } catch (error) {
     console.error(error);
