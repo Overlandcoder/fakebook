@@ -12,7 +12,7 @@ userRouter.get("/:username", async (req, res) => {
         posts: {
           include: {
             author: true,
-            likes: req.user ? { where: { userId: req.user.id } } : false,
+            likes: req.user ? { where: { userId: req.user.id } } : undefined,
             _count: { select: { likes: true } },
             comments: {
               include: { author: true },
@@ -43,7 +43,7 @@ userRouter.get("/:username", async (req, res) => {
 userRouter.post("/:username/follow", async (req, res) => {
   const { username } = req.params;
 
-  if (res.user.username === username) {
+  if (req.user.username === username) {
     return res.status(400).send("Unable to follow yourself");
   }
 

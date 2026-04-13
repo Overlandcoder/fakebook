@@ -23,6 +23,18 @@
   <% } %>
 
   <h2>Recent Posts</h2>
+  <% if (currentUser && currentUser.following.length > 0) { %>
+    <form action="/" method="GET">
+      <input
+        type="checkbox"
+        id="show-following"
+        name="showFollowing"
+        onchange="this.form.submit()"
+        <%= query?.showFollowing === "on" ? "checked" : "" %>
+      >
+      <label for="show-following">Show following only</label>
+    </form>
+  <% } %>
 
   <% if (allPosts.length > 0) { %>
     <% allPosts.forEach(post => { %>

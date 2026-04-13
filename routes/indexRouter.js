@@ -5,11 +5,15 @@ const passport = require("passport");
 const bcrypt = require("bcryptjs");
 
 indexRouter.get("/", async (req, res) => {
+  const showFollowing = req.query?.showFollowing === "on";
+  const followingIds = req.user?.following?.map((f) => f.id);
+
   try {
     const allPosts = await prisma.post.findMany({
+      where: showFollowing ? { authorId: { in: followingIds } } : {},
       include: {
         author: true,
-        likes: req.user ? { where: { userId: req.user.id } } : false,
+        likes: req.user ? { where: { userId: req.user.id } } : undefined,
         _count: { select: { likes: true } },
         comments: {
           include: { author: true },
@@ -17,7 +21,8 @@ indexRouter.get("/", async (req, res) => {
       },
       orderBy: { createdAt: "desc" },
     });
-    res.render("index", { allPosts });
+
+    res.render("index", { allPosts, query: req.query });
   } catch (error) {
     console.error(error);
     res.status(500).send("Error connecting to database");
