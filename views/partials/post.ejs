@@ -3,12 +3,21 @@
     <%= post.author.username %>
   </a>
   <small><%= post.createdAt.toLocaleString() %></small>
-  <p><%= post.content %></p>
+
   <% if (currentUser?.username === post.author.username) { %>
+    <button class="edit-btn" data-post-id="<%= post.id %>">Edit</button>
     <form action="/posts/<%= post.id %>?_method=DELETE" method="POST">
       <button type="submit">Delete Post</button>
     </form>
   <% } %>
+
+  <p id="content-<%= post.id %>"><%= post.content %></p>
+
+  <form id="edit-form-<%= post.id %>" data-post-id="<%= post.id %>" class="edit-form" style="display: none;">
+    <textarea name="content" id="content"><%= post.content %></textarea>
+    <button type="submit">Save</button>
+    <button type="button" class="cancel-btn" data-post-id="<%= post.id %>">Cancel</button>
+  </form>
 </div>
 <% if (currentUser) { %>
   <% const hasUserLiked = post.likes.length > 0 %>
@@ -35,3 +44,42 @@
   <input type="text" id="content" name="content" placeholder="Leave a comment">
   <button type="submit">Comment</button>
 </form>
+
+<script>
+  document.addEventListener("click", (e) => {
+    const postId = e.target.dataset.postId;
+    if (!postId) return;
+    const form = document.getElementById(`edit-form-${postId}`);
+    const postPara = document.getElementById(`content-${postId}`);
+
+    if (e.target.classList.contains("edit-btn")) {
+      form.style.display = "block";
+      postPara.style.display = "none";
+    } else if (e.target.classList.contains("cancel-btn")) {
+      form.style.display = "none";
+      postPara.style.display = "block";
+    }
+  });
+
+  document.addEventListener("submit", async (e) => {
+    const postId = e.target.dataset.postId;
+    if (!postId) return;
+    e.preventDefault();
+    const textArea = e.target.querySelector("textarea");
+    const updatedContent = textArea.value;
+    const url = `/posts/${postId}`;
+    const response = await fetch(url, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content: updatedContent }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      const postPara = document.getElementById(`content-${postId}`);
+      postPara.textContent = data.content;
+      e.target.style.display = "none";
+      postPara.style.display = "block";
+    }
+  });
+</script>

@@ -53,6 +53,33 @@ postRouter.delete("/:postId", async (req, res) => {
   }
 });
 
+postRouter.patch("/:postId", async (req, res) => {
+  const { postId } = req.params;
+  const { content } = req.body;
+
+  try {
+    const post = await prisma.post.findUnique({
+      where: { id: parseInt(postId) },
+    });
+
+    if (!post) return res.status(404).send("Post not found");
+
+    if (post.authorId !== req.user.id) {
+      return res.status(403).send("Permission denied - unable to edit post");
+    }
+
+    const updatedPost = await prisma.post.update({
+      where: { id: parseInt(postId) },
+      data: { content: content },
+    });
+
+    res.json({ content: updatedPost.content });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Failed to edit post");
+  }
+});
+
 postRouter.post("/:postId/comments", async (req, res) => {
   const { content } = req.body;
   const { postId } = req.params;
