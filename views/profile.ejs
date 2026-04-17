@@ -1,23 +1,36 @@
-<h2><%= profileUser.username %></h2>
-<% numFollowers = profileUser._count.followers %>
-<p><%= numFollowers %> <%= numFollowers === 1 ? "follower" : "followers" %></p>
-<% if (currentUser && currentUser.id !== profileUser.id) { %>
-  <% if (isFollowing) { %>
-    <form action="/users/<%= profileUser.username %>/follow?_method=DELETE" method="POST">
-      <button type="submit">Unfollow</button>
-    </form>
-  <% } else { %>
-    <form action="/users/<%= profileUser.username %>/follow" method="POST">
-      <button type="submit">Follow</button>
-    </form>
-  <% } %>
-<% } %>
-<div>
-  <% if (profileUser.posts.length > 0) { %>
-    <% profileUser.posts.forEach(post => { %>
-      <%- include("partials/post", { post: post }) %>
-    <% }) %>
-  <% } else { %>
-    <p><%= profileUser.username %> has no posts.</p>
-  <% } %>
+<%- include("partials/header") %>
+
+<div class="max-w-4xl mx-auto py-8">
+  <div class="max-w-xl border-2 border-green-100 rounded-xl p-6 bg-white shadow mx-auto flex justify-center items-center gap-8">
+    <h2 class="text-3xl font-bold text-green-600 leading-none pb-1"><%= profileUser.username %></h2>
+    <div class="self-stretch border-r-2 border-green-200 my-1"></div>
+    <% numFollowers = profileUser._count.followers %>
+    <p class="text-gray-600 leading-none"><%= numFollowers %> <%= numFollowers === 1 ? "follower" : "followers" %></p>
+    <div>
+      <% if (currentUser && currentUser.id !== profileUser.id) { %>
+        <% const followBtnClasses = "px-3 py-1 rounded-lg font-semibold" %>
+        <% if (isFollowing) { %>
+          <form action="/users/<%= profileUser.username %>/follow?_method=DELETE" method="POST">
+            <button type="submit" class="<%= followBtnClasses %> bg-gray-100 text-gray-700 hover:bg-red-600 hover:text-white">Unfollow</button>
+          </form>
+        <% } else { %>
+          <form action="/users/<%= profileUser.username %>/follow" method="POST">
+            <button type="submit" class="<%= followBtnClasses %> bg-green-600 text-white hover:bg-green-700">Follow</button>
+          </form>
+        <% } %>
+      <% } %>
+    </div>
+  </div>
+
+  <div class="mt-8">
+    <% if (profileUser.posts.length > 0) { %>
+      <% profileUser.posts.forEach(post => { %>
+        <%- include("partials/post", { post: post }) %>
+      <% }) %>
+    <% } else { %>
+      <div class="max-w-xl mx-auto py-10 rounded-xl bg-white text-center border border-gray-100 shadow-sm">
+        <p class="text-gray-500 italic"><span class="font-semibold"><%= profileUser.username %></span> has no posts.</p>
+      </div>
+    <% } %>
+  </div>
 </div>
