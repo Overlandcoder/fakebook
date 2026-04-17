@@ -1,11 +1,20 @@
-<div class="max-w-xl mx-auto bg-white border border-gray-200 rounded-xl shadow-sm p-4 my-6">
+<div class="max-w-xl mx-auto bg-white border-x border-b border-gray-200 border-t-4 border-t-green-500 rounded-xl shadow-sm p-4 my-6">
+  <!-- AUTHOR INFO & ACTIONS -->
   <div class="flex justify-between items-center mb-3">
     <div class="flex items-center gap-2">
       <a href="/users/<%= post.author.username %>"
         class="font-bold text-green-600 px-2 py-1 rounded-full transition-colors duration-75 hover:bg-green-100 hover:text-green-700 active:scale-95">
         <%= post.author.username %>
       </a>
-      <small class="text-gray-500"><%= post.createdAt.toLocaleString() %></small>
+      <small class="text-gray-500">
+        <%= post.createdAt.toLocaleString([], { 
+          year: 'numeric', 
+          month: 'short', 
+          day: 'numeric', 
+          hour: '2-digit', 
+          minute: '2-digit' 
+        }) %>
+      </small>
     </div>
 
     <% if (currentUser?.username === post.author.username) { %>
@@ -18,8 +27,10 @@
     <% } %>
   </div>
 
+  <!-- POST CONTENT -->
   <p id="content-<%= post.id %>" class="text-gray-800 text-lg p-2 mb-4"><%= post.content %></p>
 
+  <!-- EDIT POST FORM -->
   <form id="edit-form-<%= post.id %>" data-post-id="<%= post.id %>" class="edit-form mb-4" style="display: none;">
     <textarea name="content" id="content" class="w-full p-2 border rounded-md text-lg focus:ring-1 focus:ring-green-500 outline-none"><%= post.content %></textarea>
     <div class="flex gap-2 mt-2">
@@ -28,36 +39,42 @@
     </div>
   </form>
 
-  <div class="border-t py-2 mb-4 flex items-center gap-4">
+  <!-- LIKE SECTION -->
+  <div class="border-t pt-2 px-2 flex items-center gap-4">
     <% if (currentUser) { %>
       <% const hasUserLiked = post.likes.length > 0 %>
-      <% const btnClasses = "px-4 py-1 rounded-md transition-colors" %>
+      <% const likeBtnClasses = "px-4 py-1 rounded-md transition-colors" %>
       <% if (hasUserLiked) { %>
         <form action="/posts/<%= post.id %>/likes?_method=DELETE" method="POST">
-          <button type="submit" class="<%= btnClasses %> text-green-600 font-bold hover:bg-gray-100">Liked</button>
+          <button type="submit" class="<%= likeBtnClasses %> text-green-600 font-bold hover:bg-gray-100">Liked</button>
         </form>
      <% } else { %>
         <form action="/posts/<%= post.id %>/likes" method="POST">
-          <button type="submit" class="<%= btnClasses %> text-gray-600 hover:bg-green-100">Like</button>
+          <button type="submit" class="<%= likeBtnClasses %> text-gray-600 hover:bg-green-100 hover:text-green-700">Like</button>
         </form>
       <% } %>
     <% } %>
     <span class="text-gray-500"><%= post._count.likes %> <%= post._count.likes === 1 ? "like" : "likes" %></span>
   </div>
 
-  <div class="space-y-2 mb-4">
-    <% post.comments.forEach(comment => { %>
-      <div class="bg-gray-50 p-2 rounded-lg text-sm">
-        <a href="/users/<%= comment.author.username %>" class="font-bold hover:text-green-700">
-          <%= comment.author.username %>
-        </a>
-        <p class="text-gray-700"><%= comment.content %></p>
-      </div>
-    <% }) %>
-  </div>
-  <form action="/posts/<%= post.id %>/comments" method="POST" class="flex gap-2">
+  <!-- COMMENTS -->
+  <% if (post.comments.length > 0) { %>
+    <div class="mt-4 space-y-2 mb-2">
+      <% post.comments.forEach(comment => { %>
+        <div class="bg-gray-50 p-2 rounded-lg text-sm">
+          <a href="/users/<%= comment.author.username %>" class="font-bold hover:text-green-700">
+            <%= comment.author.username %>
+          </a>
+          <p class="text-gray-700"><%= comment.content %></p>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+
+  <!-- NEW COMMENT FORM -->
+  <form action="/posts/<%= post.id %>/comments" method="POST" class="flex gap-2 mt-4 mb-2">
     <input type="text" name="content" placeholder="Write a comment..." class="flex-grow bg-gray-100 rounded-full px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-green-400">
-    <button type="submit" class="text-green-600 font-semibold text-sm px-2 hover:text-green-700">Post</button>
+    <button type="submit" class="text-green-600 font-semibold text-sm px-2 rounded-md hover:bg-green-100 hover:text-green-700 transition-colors">Post</button>
   </form>
 </div>
 
