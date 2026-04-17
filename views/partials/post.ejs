@@ -1,49 +1,65 @@
-<div>
-  <a href="/users/<%= post.author.username %>">
-    <%= post.author.username %>
-  </a>
-  <small><%= post.createdAt.toLocaleString() %></small>
+<div class="max-w-xl mx-auto bg-white border border-gray-200 rounded-xl shadow-sm p-4 my-6">
+  <div class="flex justify-between items-center mb-3">
+    <div class="flex items-center gap-2">
+      <a href="/users/<%= post.author.username %>"
+        class="font-bold text-green-600 px-2 py-1 rounded-full transition-colors duration-75 hover:bg-green-100 hover:text-green-700 active:scale-95">
+        <%= post.author.username %>
+      </a>
+      <small class="text-gray-500"><%= post.createdAt.toLocaleString() %></small>
+    </div>
 
-  <% if (currentUser?.username === post.author.username) { %>
-    <button class="edit-btn" data-post-id="<%= post.id %>">Edit</button>
-    <form action="/posts/<%= post.id %>?_method=DELETE" method="POST">
-      <button type="submit">Delete Post</button>
-    </form>
-  <% } %>
+    <% if (currentUser?.username === post.author.username) { %>
+      <div class="flex gap-2 px-2">
+        <button class="edit-btn text-sm text-gray-500 hover:text-green-600" data-post-id="<%= post.id %>">Edit</button>
+        <form action="/posts/<%= post.id %>?_method=DELETE" method="POST">
+          <button type="submit" class="text-sm text-gray-500 hover:text-red-600">Delete</button>
+        </form>
+      </div>
+    <% } %>
+  </div>
 
-  <p id="content-<%= post.id %>"><%= post.content %></p>
+  <p id="content-<%= post.id %>" class="text-gray-800 text-lg p-2 mb-4"><%= post.content %></p>
 
-  <form id="edit-form-<%= post.id %>" data-post-id="<%= post.id %>" class="edit-form" style="display: none;">
-    <textarea name="content" id="content"><%= post.content %></textarea>
-    <button type="submit">Save</button>
-    <button type="button" class="cancel-btn" data-post-id="<%= post.id %>">Cancel</button>
+  <form id="edit-form-<%= post.id %>" data-post-id="<%= post.id %>" class="edit-form mb-4" style="display: none;">
+    <textarea name="content" id="content" class="w-full p-2 border rounded-md text-lg focus:ring-1 focus:ring-green-500 outline-none"><%= post.content %></textarea>
+    <div class="flex gap-2 mt-2">
+      <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-md text-sm hover:bg-green-700">Save</button>
+      <button type="button" class="cancel-btn bg-gray-100 px-4 py-2 rounded-md text-sm hover:bg-gray-200" data-post-id="<%= post.id %>">Cancel</button>
+    </div>
+  </form>
+
+  <div class="border-t py-2 mb-4 flex items-center gap-4">
+    <% if (currentUser) { %>
+      <% const hasUserLiked = post.likes.length > 0 %>
+      <% const btnClasses = "px-4 py-1 rounded-md transition-colors" %>
+      <% if (hasUserLiked) { %>
+        <form action="/posts/<%= post.id %>/likes?_method=DELETE" method="POST">
+          <button type="submit" class="<%= btnClasses %> text-green-600 font-bold hover:bg-gray-100">Liked</button>
+        </form>
+     <% } else { %>
+        <form action="/posts/<%= post.id %>/likes" method="POST">
+          <button type="submit" class="<%= btnClasses %> text-gray-600 hover:bg-green-100">Like</button>
+        </form>
+      <% } %>
+    <% } %>
+    <span class="text-gray-500"><%= post._count.likes %> <%= post._count.likes === 1 ? "like" : "likes" %></span>
+  </div>
+
+  <div class="space-y-2 mb-4">
+    <% post.comments.forEach(comment => { %>
+      <div class="bg-gray-50 p-2 rounded-lg text-sm">
+        <a href="/users/<%= comment.author.username %>" class="font-bold hover:text-green-700">
+          <%= comment.author.username %>
+        </a>
+        <p class="text-gray-700"><%= comment.content %></p>
+      </div>
+    <% }) %>
+  </div>
+  <form action="/posts/<%= post.id %>/comments" method="POST" class="flex gap-2">
+    <input type="text" name="content" placeholder="Write a comment..." class="flex-grow bg-gray-100 rounded-full px-4 py-2 text-sm outline-none focus:ring-1 focus:ring-green-400">
+    <button type="submit" class="text-green-600 font-semibold text-sm px-2 hover:text-green-700">Post</button>
   </form>
 </div>
-<% if (currentUser) { %>
-  <% const hasUserLiked = post.likes.length > 0 %>
-  <% if (hasUserLiked) { %>
-    <form action="/posts/<%= post.id %>/likes?_method=DELETE" method="POST">
-      <button type="submit">Liked</button>
-    </form>
-  <% } else { %>
-    <form action="/posts/<%= post.id %>/likes" method="POST">
-      <button type="submit">Like</button>
-    </form>
-  <% } %>
-<% } %>
-<p><%= post._count.likes %> <%= post._count.likes === 1 ? "like" : "likes" %></p>
-<div>
-  <% post.comments.forEach(comment => { %>
-    <a href="/users/<%= comment.author.username %>">
-      <%= comment.author.username %>
-    </a>
-    <p><%= comment.content %></p>
-  <% }) %>
-</div>
-<form action="/posts/<%= post.id %>/comments" method="POST">
-  <input type="text" id="content" name="content" placeholder="Leave a comment">
-  <button type="submit">Comment</button>
-</form>
 
 <script>
   document.addEventListener("click", (e) => {
