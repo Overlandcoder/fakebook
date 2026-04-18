@@ -1,49 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
+    <%- include("partials/header") %>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/style.css">
-  <title>Fakebook</title>
-</head>
+    <main class="max-w-xl mx-auto py-8 px-4">
+      <div class="mx-auto flex justify-between items-end mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">Recent Posts</h2>
+        <% if (currentUser) { %>
+          <a href="/posts/new" class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors">
+            + New Post
+          </a>
+        <% } %>
+      </div>
 
-<body class="bg-gray-50">
-  <h1>Welcome to Fakebook</h1>
-  <p>A brand new way to socialize.</p>
+      <% if (currentUser && currentUser.following.length > 0) { %>
+        <form action="/" method="GET">
+          <input
+            type="checkbox"
+            id="show-following"
+            name="showFollowing"
+            onchange="this.form.submit()"
+            <%= query?.showFollowing === "on" ? "checked" : "" %>
+          >
+          <label for="show-following">Show following only</label>
+        </form>
+      <% } %>
 
-  <% if (currentUser) { %>
-    <p>Logged in as: <%= currentUser.username %></p>
-    <a href="/posts/new">New Post</a>
-    <form action="/logout" method="POST">
-      <button type="submit">Log Out</button>
-    </form>
-  <% } else { %>
-    <a href="/signup">Sign Up</a>
-    <a href="/login">Log In</a>
-  <% } %>
-
-  <h2>Recent Posts</h2>
-  <% if (currentUser && currentUser.following.length > 0) { %>
-    <form action="/" method="GET">
-      <input
-        type="checkbox"
-        id="show-following"
-        name="showFollowing"
-        onchange="this.form.submit()"
-        <%= query?.showFollowing === "on" ? "checked" : "" %>
-      >
-      <label for="show-following">Show following only</label>
-    </form>
-  <% } %>
-
-  <% if (allPosts.length > 0) { %>
-    <% allPosts.forEach(post => { %>
-      <%- include("partials/post", { post: post }) %>
-    <% }) %>
-  <% } else { %>
-    <p>No posts yet. Be the first to post something!</p>
-  <% } %>
-</body>
-
+      <% if (allPosts.length > 0) { %>
+        <% allPosts.forEach(post => { %>
+          <%- include("partials/post", { post: post }) %>
+        <% }) %>
+      <% } else { %>
+        <p>No posts yet. Be the first to post something!</p>
+      <% } %>
+    </main>
+  </body>
 </html>
