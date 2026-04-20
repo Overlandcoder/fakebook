@@ -6,9 +6,10 @@
     <div class="self-stretch border-r-2 border-green-200 my-1"></div>
     <% numFollowers = profileUser._count.followers %>
     <p class="text-gray-600 leading-none"><%= numFollowers %> <%= numFollowers === 1 ? "follower" : "followers" %></p>
+    <!-- FOLLOW/UNFOLLOW BUTTONS -->
     <div>
       <% if (currentUser && currentUser.id !== profileUser.id) { %>
-        <% const followBtnClasses = "px-3 py-1 rounded-lg font-semibold" %>
+        <% const followBtnClasses = "px-3 py-1 rounded-lg font-semibold transition-colors" %>
         <% if (isFollowing) { %>
           <form action="/users/<%= profileUser.username %>/follow?_method=DELETE" method="POST">
             <button type="submit" class="<%= followBtnClasses %> bg-gray-100 text-gray-700 hover:bg-red-600 hover:text-white">Unfollow</button>
@@ -22,6 +23,7 @@
     </div>
   </div>
 
+  <!-- POST SECTION -->
   <div class="mt-8">
     <% if (profileUser.posts.length > 0) { %>
       <% profileUser.posts.forEach(post => { %>
