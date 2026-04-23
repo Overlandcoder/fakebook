@@ -3,8 +3,9 @@ const indexRouter = Router();
 const prisma = require("../db/prisma");
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
+const authenticatedUser = require("../middleware/auth");
 
-indexRouter.get("/", async (req, res) => {
+indexRouter.get("/", authenticatedUser, async (req, res) => {
   const showFollowing = req.query?.showFollowing === "on";
   const followingIds = req.user?.following?.map((f) => f.id);
 
@@ -79,6 +80,25 @@ indexRouter.post("/logout", (req, res, next) => {
 
     res.redirect("/");
   });
+});
+
+indexRouter.post("/guest-login", async (req, res, next) => {
+  try {
+    const guestUser = await prisma.user.findUnique({
+      where: { username: "guest_user" },
+    });
+
+    if (!guestUser) {
+      return res.render("login", { error: "Guest account error" });
+    }
+
+    req.login(guestUser, (err) => {
+      if (err) return next(err);
+      res.redirect("/");
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = indexRouter;

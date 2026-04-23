@@ -1,6 +1,9 @@
 const { Router } = require("express");
 const userRouter = Router();
 const prisma = require("../db/prisma");
+const authenticatedUser = require("../middleware/auth");
+
+userRouter.use(authenticatedUser);
 
 userRouter.get("/:username", async (req, res) => {
   const { username } = req.params;
