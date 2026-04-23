@@ -1,9 +1,50 @@
-<form action="/signup" method="POST">
-  <label for="email">Email: </label>
-  <input type="email" name="email" id="email" required />
-  <label for="username">Username: </label>
-  <input type="text" name="username" id="username" required />
-  <label for="password">Password: </label>
-  <input type="password" name="password" id="password" required />
-  <button type="submit">Sign Up</button>
-</form>
+<%- include("partials/header") %>
+
+<% const labelClasses = "block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2" %>
+<% const inputClasses = "w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all" %>
+
+<main class="min-h-[calc(100vh-64px)] flex flex-col justify-center items-center px-4 py-12">
+  <div class="max-w-md w-full bg-white border border-green-200 rounded-2xl shadow-xl shadow-green-100 p-8">
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-black text-green-600 tracking-tighter mb-2">Fakebook</h1>
+      <p class="text-gray-500 font-medium">Join the community!</p>
+    </div>
+
+    <% if (locals.error) { %>
+      <div class="mb-6 p-3 bg-red-50 border border-red-100 text-red-600 text-sm rounded-lg text-center">
+        <%= error %>
+      </div>
+    <% } %>
+
+    <form action="/signup" method="POST" class="space-y-5">
+      <div>
+        <label for="email" class="<%= labelClasses %>">Email</label>
+        <input type="email" name="email" id="email" value="<%= locals.email || '' %>" required
+          class="<%= inputClasses %>" placeholder="some@example.com" />
+      </div>
+
+      <div>
+        <label for="username" class="<%= labelClasses %>">Username</label>
+        <input type="text" name="username" id="username" value="<%= locals.username || '' %>" required
+          class="<%= inputClasses %>"
+          placeholder="Choose a username" />
+      </div>
+
+      <div>
+        <label for="password" class="<%= labelClasses %>">Password</label>
+        <input type="password" name="password" id="password" required
+          class="<%= inputClasses %>"
+          placeholder="Create a password" />
+      </div>
+
+      <div>
+        <label for="confirmPassword" class="<%= labelClasses %>">Confirm Password</label>
+        <input type="password" name="confirmPassword" id="confirmPassword" required
+          class="<%= inputClasses %>"
+          placeholder="Confirm your password" />
+      </div>
+
+      <button type="submit" class="w-full py-3 bg-green-600 text-white font-bold rounded-xl hover:bg-green-700 active:scale-[0.98] transition-all shadow-lg shadow-green-200">Sign Up</button>
+    </form>
+  </div>
+</main>

@@ -34,7 +34,13 @@ indexRouter.get("/signup", (req, res) => {
 });
 
 indexRouter.post("/signup", async (req, res) => {
-  const { email, username, password } = req.body;
+  const { email, username, password, confirmPassword } = req.body;
+  if (password !== confirmPassword)
+    return res.render("signup", {
+      error: "Passwords do not match",
+      email,
+      username,
+    });
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);

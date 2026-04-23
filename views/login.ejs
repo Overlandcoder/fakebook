@@ -1,7 +1,42 @@
-<form action="/login" method="POST">
-  <label for="username">Username: </label>
-  <input type="text" name="username" id="username" required />
-  <label for="password">Password: </label>
-  <input type="password" name="password" id="password" required />
-  <button type="submit">Log In</button>
-</form>
+<%- include("partials/header") %>
+
+<% const labelClasses = "block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2" %>
+<% const inputClasses = "w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all" %>
+
+<main class="min-h-[calc(100vh-64px)] flex flex-col justify-center items-center px-4 py-12">
+  <div class="max-w-md w-full bg-white border border-green-200 rounded-2xl shadow-xl shadow-green-100 p-8">
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-black text-green-600 tracking-tighter mb-2">Fakebook</h1>
+      <p class="text-gray-500 font-medium">Welcome back! Please log in.</p>
+    </div>
+
+    <% if (locals.error) { %>
+      <div class="mb-6 p-3 bg-red-50 border border-red-100 text-red-600 text-sm rounded-lg text-center">
+        <%= error %>
+      </div>
+    <% } %>
+
+    <form action="/login" method="POST" class="space-y-5">
+      <div>
+        <label for="username" class="<%= labelClasses %>">Username</label>
+        <input type="text" name="username" id="username" required
+          class="<%= inputClasses %>"
+          placeholder="Enter your username" />
+      </div>
+
+      <div>
+        <label for="password" class="<%= labelClasses %>">Password</label>
+        <input type="password" name="password" id="password" required
+          class="<%= inputClasses %>"
+          placeholder="••••••••" />
+      </div>
+
+      <button type="submit" class="w-full py-3 bg-green-600 text-white font-bold rounded-xl hover:bg-green-700 active:scale-[0.98] transition-all shadow-lg shadow-green-200">Log In</button>
+    </form>
+
+    <div class="mt-8 pt-6 border-t border-gray-100 text-center">
+      <p class="text-sm text-gray-500">Don't have an account?
+        <a href="/signup" class="text-green-600 font-bold hover:underline">Sign Up</a></p>
+    </div>
+  </div>
+</main>
