@@ -11,12 +11,13 @@
       </div>
 
       <% if (currentUser && currentUser.following.length > 0) { %>
-        <form action="/" method="GET">
+        <form action="/" method="GET" class="text-gray-500">
           <input
             type="checkbox"
             id="show-following"
             name="showFollowing"
             onchange="this.form.submit()"
+            class="accent-green-600"
             <%= query?.showFollowing === "on" ? "checked" : "" %>
           >
           <label for="show-following">Show following only</label>
