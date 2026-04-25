@@ -1,8 +1,8 @@
 <%- include("partials/header") %>
 
-<div class="max-w-xl mx-auto py-8">
-  <div class="max-w-xl shadow-md shadow-green-200/50 rounded-md p-6 bg-white mx-auto flex justify-center items-center gap-8">
-    <h2 class="text-3xl font-bold text-green-600 leading-none pb-1"><%= profileUser.username %></h2>
+<main class="max-w-xl mx-auto py-8 px-4">
+  <div class="shadow-md shadow-green-200/50 rounded-md p-6 bg-white mx-auto flex justify-center items-center gap-4 sm:gap-8">
+    <h2 class="text-base sm:text-2xl font-bold text-green-600 leading-none"><%= profileUser.username %></h2>
     <div class="self-stretch border-r-2 border-amber-200 my-1"></div>
     <% numFollowers = profileUser._count.followers %>
     <p class="text-gray-600 leading-none"><%= numFollowers %> <%= numFollowers === 1 ? "follower" : "followers" %></p>
@@ -35,4 +35,6 @@
       </div>
     <% } %>
   </div>
-</div>
+</main>
+
+<%- include("partials/footer") %>
