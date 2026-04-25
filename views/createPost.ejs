@@ -2,8 +2,8 @@
 
 <main class="max-w-xl mx-auto py-12 px-4">
   <div class="bg-white border border-green-300 rounded-xl shadow-md shadow-green-100 overflow-hidden">
-    <div class="border-b border-gray-100 p-4 bg-green-600">
-      <h2 class="text-xl font-bold text-white text-center">Create Post</h2>
+    <div class="border-b border-gray-100 p-2 sm:p-4 bg-green-600">
+      <h2 class="text-lg sm:text-xl font-bold text-white text-center">Create Post</h2>
     </div>
 
     <% if (locals.error) { %>
@@ -16,14 +16,14 @@
       <div class="flex items-start gap-4 mb-6">
         <div class="flex-1">
           <label for="content" class="block text-sm font-semibold text-amber-600 mb-2 uppercase tracking-wider">What's on your mind?</label>
-          <textarea name="content" id="content" rows="5" placeholder="Share your thoughts with the community!" class="w-full border border-amber-200 bg-amber-50/30 p-4 rounded-lg text-lg focus:ring-0 outline-none resize-none placeholder:text-gray-300" required></textarea>
+          <textarea name="content" id="content" rows="5" placeholder="Share your thoughts with the community!" class="w-full border border-amber-200 bg-amber-50/30 p-4 rounded-lg sm:text-lg focus:ring-0 outline-none resize-none placeholder:text-gray-300" required></textarea>
         </div>
       </div>
       <div class="flex justify-between items-center">
         <a href="/" class="text-sm font-semibold hover:text-amber-500 text-gray-400 transition-colors">
           ← Cancel
         </a>
-        <button type="submit" class="bg-green-600 text-white px-8 py-2 rounded-lg font-bold hover:bg-green-700 transition-colors shadow-sm w-full sm:w-auto active:scale-95">Post</button>
+        <button type="submit" class="bg-green-600 text-white px-8 py-2 rounded-lg font-bold hover:bg-green-700 transition-colors shadow-sm active:scale-95">Post</button>
       </div>
     </form>
   </div>
