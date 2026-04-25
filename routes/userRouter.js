@@ -16,7 +16,7 @@ userRouter.get("/:username", async (req, res) => {
           include: {
             author: true,
             likes: req.user ? { where: { userId: req.user.id } } : undefined,
-            _count: { select: { likes: true } },
+            _count: { select: { likes: true, comments: true } },
             comments: {
               include: { author: true },
             },
