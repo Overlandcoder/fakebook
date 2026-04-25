@@ -1,42 +1,42 @@
-    <%- include("partials/header") %>
+<%- include("partials/header") %>
 
-    <main class="max-w-xl mx-auto py-8 px-4">
-      <div class="mx-auto flex justify-between items-end mb-6">
-        <h2 class="text-2xl font-bold text-gray-800">Recent Posts</h2>
-        <% if (currentUser) { %>
-          <a href="/posts/new" class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors">
-            + New Post
-          </a>
-        <% } %>
-      </div>
+<main class="max-w-xl mx-auto py-8 px-4">
+  <div class="mx-auto flex justify-between items-end mb-6">
+    <h2 class="text-2xl font-bold text-gray-800">Recent Posts</h2>
+    <% if (currentUser) { %>
+      <a href="/posts/new" class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors">
+        + New Post
+      </a>
+    <% } %>
+  </div>
 
-      <% if (currentUser && currentUser.following.length > 0) { %>
-        <form action="/" method="GET" class="text-gray-500">
-          <input
-            type="checkbox"
-            id="show-following"
-            name="showFollowing"
-            onchange="this.form.submit()"
-            class="accent-green-600"
-            <%= query?.showFollowing === "on" ? "checked" : "" %>
-          >
-          <label for="show-following">Show following only</label>
-        </form>
-      <% } %>
+  <% if (currentUser && currentUser.following.length > 0) { %>
+    <form action="/" method="GET" class="text-gray-500">
+      <input
+        type="checkbox"
+        id="show-following"
+        name="showFollowing"
+        onchange="this.form.submit()"
+        class="accent-green-600"
+        <%= query?.showFollowing === "on" ? "checked" : "" %>
+      >
+      <label for="show-following">Show following only</label>
+    </form>
+  <% } %>
 
-      <% if (allPosts.length > 0) { %>
-        <% allPosts.forEach(post => { %>
-          <%- include("partials/post", { post: post }) %>
-        <% }) %>
-      <% } else if (query?.showFollowing === "on" && allPosts.length === 0) { %>
-        <div class="mt-10 py-8 bg-white border border-amber-200 rounded-lg">
-          <p class="italic text-gray-500 text-lg text-center">Uh oh, the people you follow haven't posted anything yet.</p>
-        </div>
-      <% } else { %>
-        <div class="mt-10 py-8 bg-white border border-amber-200 rounded-lg">
-          <p class="italic text-gray-500 text-lg text-center">No posts yet. Be the first to post something!</p>
-        </div>
-      <% } %>
-    </main>
-  </body>
-</html>
+  <% if (allPosts.length > 0) { %>
+    <% allPosts.forEach(post => { %>
+      <%- include("partials/post", { post: post }) %>
+    <% }) %>
+  <% } else if (query?.showFollowing === "on" && allPosts.length === 0) { %>
+    <div class="mt-10 py-8 bg-white border border-amber-200 rounded-lg">
+      <p class="italic text-gray-500 text-lg text-center">Uh oh, the people you follow haven't posted anything yet.</p>
+    </div>
+  <% } else { %>
+    <div class="mt-10 py-8 bg-white border border-amber-200 rounded-lg">
+      <p class="italic text-gray-500 text-lg text-center">No posts yet. Be the first to post something!</p>
+    </div>
+  <% } %>
+</main>
+
+<%- include("partials/footer") %>
