@@ -28,8 +28,14 @@
         <% allPosts.forEach(post => { %>
           <%- include("partials/post", { post: post }) %>
         <% }) %>
+      <% } else if (query?.showFollowing === "on" && allPosts.length === 0) { %>
+        <div class="mt-10 py-8 bg-white border border-amber-200 rounded-lg">
+          <p class="italic text-gray-500 text-lg text-center">Uh oh, the people you follow haven't posted anything yet.</p>
+        </div>
       <% } else { %>
-        <p>No posts yet. Be the first to post something!</p>
+        <div class="mt-10 py-8 bg-white border border-amber-200 rounded-lg">
+          <p class="italic text-gray-500 text-lg text-center">No posts yet. Be the first to post something!</p>
+        </div>
       <% } %>
     </main>
   </body>
