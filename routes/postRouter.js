@@ -5,7 +5,6 @@ const authenticatedUser = require("../middleware/auth");
 const { storage } = require("../storage/storage");
 const multer = require("multer");
 const upload = multer({ storage });
-const cloudinary = require("cloudinary");
 
 postRouter.use(authenticatedUser);
 
@@ -13,13 +12,15 @@ postRouter.get("/new", (req, res) => {
   res.render("createPost");
 });
 
-postRouter.post("/", async (req, res) => {
+postRouter.post("/", upload.single("image"), async (req, res) => {
   const { content } = req.body;
+  const imageUrl = req.file?.path;
 
   try {
     await prisma.post.create({
       data: {
         content,
+        imageUrl,
         author: {
           connect: { id: req.user.id },
         },

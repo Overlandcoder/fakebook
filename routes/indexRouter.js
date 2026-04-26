@@ -14,6 +14,8 @@ indexRouter.get("/", authenticatedUser, async (req, res) => {
       where: showFollowing ? { authorId: { in: followingIds } } : {},
       include: {
         author: true,
+        // only grabbing the currentUser's like,
+        // to show whether currentUser has liked post
         likes: req.user ? { where: { userId: req.user.id } } : undefined,
         _count: { select: { likes: true, comments: true } },
         comments: {
