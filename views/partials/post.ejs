@@ -37,8 +37,10 @@
 
   <!-- POST CONTENT -->
    <div class="p-2 mb-4">
-    <img src="<%= post.imageUrl %>" alt="" class="mx-auto max-h-96 rounded-md">
-    <p id="content-<%= post.id %>" class="mt-4 text-gray-800 text-lg"><%= post.content %></p>
+    <% if (post.imageUrl) { %>
+      <img src="<%= post.imageUrl %>" alt="Post contains an image by author <%= post.author.username %>" class="mx-auto max-h-96 mb-4 rounded-md">
+    <% } %>
+    <p id="content-<%= post.id %>" class="text-gray-800 text-lg"><%= post.content %></p>
    </div>
 
   <!-- EDIT POST FORM -->
