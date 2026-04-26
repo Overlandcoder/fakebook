@@ -2,6 +2,10 @@ const { Router } = require("express");
 const postRouter = Router();
 const prisma = require("../db/prisma");
 const authenticatedUser = require("../middleware/auth");
+const { storage } = require("../storage/storage");
+const multer = require("multer");
+const upload = multer({ storage });
+const cloudinary = require("cloudinary");
 
 postRouter.use(authenticatedUser);
 
