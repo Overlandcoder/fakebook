@@ -36,7 +36,10 @@
   </div>
 
   <!-- POST CONTENT -->
-  <p id="content-<%= post.id %>" class="text-gray-800 text-lg p-2 mb-4"><%= post.content %></p>
+   <div class="p-2 mb-4">
+    <img src="<%= post.imageUrl %>" alt="" class="mx-auto max-h-96 rounded-md">
+    <p id="content-<%= post.id %>" class="mt-4 text-gray-800 text-lg"><%= post.content %></p>
+   </div>
 
   <!-- EDIT POST FORM -->
   <form id="edit-form-<%= post.id %>" data-post-id="<%= post.id %>" class="edit-form mb-4" style="display: none;">
