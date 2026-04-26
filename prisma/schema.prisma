@@ -14,43 +14,45 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  username String @unique
-  email    String @unique
-  password String
-  posts    Post[]
-  comments Comment[]
-  likes Like[]
-  followers User[] @relation("UserFollows")
-  following User[] @relation("UserFollows")
+  id        Int       @id @default(autoincrement())
+  username  String    @unique
+  email     String    @unique
+  password  String
+  posts     Post[]
+  comments  Comment[]
+  likes     Like[]
+  followers User[]    @relation("UserFollows")
+  following User[]    @relation("UserFollows")
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
   content   String
-  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  imageUrl  String?
+  author    User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId  Int
-  comments Comment[]
-  likes Like[]
+  comments  Comment[]
+  likes     Like[]
 }
 
 model Comment {
-  id Int @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  content String
-  author User @relation(fields: [authorId], references: [id])
-  authorId Int
-  post Post @relation(fields: [postId], references: [id])
-  postId Int
+  content   String
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  Int
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    Int
 }
 
 model Like {
-  id Int @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  user User @relation(fields: [userId], references: [id])
-  userId Int
-  post Post @relation(fields: [postId], references: [id])
-  postId Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    Int
+
   @@unique([userId, postId])
 }
