@@ -3,7 +3,8 @@
 <main class="max-w-xl mx-auto mt-4 p-4">
   <% allUsers.forEach(user => { %>
     <% const { followers, posts, comments } = user._count %>
-    <div class="max-w-md border-l-2 border-transparent even:border-amber-400 flex flex-col justify-center mb-4 pt-2 p-4 bg-white shadow rounded-lg hover:border-green-300 hover:shadow-md transition-all">
+    <% const highlightSelf = user.id === currentUser.id ? "ring-2 ring-green-500 ring-offset-2 border-none" : "" %>
+    <div class="max-w-md border-l-2 border-transparent even:border-amber-400 flex flex-col justify-center mb-4 pt-2 p-4 bg-white shadow rounded-lg hover:border-green-300 hover:shadow-md transition-all <%= highlightSelf %>">
       <a href="/users/<%= user.username %>" class="mx-auto text-lg font-bold text-green-600 hover:text-green-500 transition-all"><%= user.username %></a>
       <div class="flex justify-center mt-2 text-gray-600">
         <div class="flex items-center px-3 sm:px-5 gap-2 border-r <%= followers === 0 ? 'text-gray-400' : '' %>">
