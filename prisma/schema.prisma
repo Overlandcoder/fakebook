@@ -18,6 +18,7 @@ model User {
   username  String    @unique
   email     String    @unique
   password  String
+  createdAt DateTime  @default(now())
   posts     Post[]
   comments  Comment[]
   likes     Like[]
