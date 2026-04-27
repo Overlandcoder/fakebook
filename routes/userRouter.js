@@ -81,4 +81,19 @@ userRouter.delete("/:username/follow", async (req, res) => {
   }
 });
 
+userRouter.get("/", authenticatedUser, async (req, res) => {
+  try {
+    const allUsers = await prisma.user.findMany({
+      include: {
+        _count: { select: { posts: true, followers: true, comments: true } },
+      },
+      orderBy: { username: "asc" },
+    });
+    res.render("users", { allUsers });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error connecting to database");
+  }
+});
+
 module.exports = userRouter;
