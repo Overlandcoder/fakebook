@@ -26,8 +26,20 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
   res.locals.currentUser = req.user;
+
+  if (req.user) {
+    const user = await prisma.user.findUnique({
+      where: { id: req.user.id },
+      select: { following: { select: { id: true } } },
+    });
+
+    const followingIds = user.following.map((f) => f.id);
+
+    res.locals.followingIds = followingIds;
+  }
+
   next();
 });
 
