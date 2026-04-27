@@ -11,16 +11,16 @@
   </div>
 
   <% if (currentUser && currentUser.following.length > 0) { %>
-    <form action="/" method="GET" class="text-gray-500">
+    <form action="/" method="GET" class="flex items-center gap-2 text-gray-500">
       <input
         type="checkbox"
         id="show-following"
         name="showFollowing"
         onchange="this.form.submit()"
-        class="accent-green-600"
+        class="appearance-none h-5 w-5 bg-white border border-gray-300 rounded hover:border-4 hover:border-green-400 hover:bg-green-200 checked:bg-green-500 checked:shadow-md checked:border-4 checked:border-white checked:hover:border-green-400 checked:hover:bg-white cursor-pointer transition-all active:scale-50"
         <%= query?.showFollowing === "on" ? "checked" : "" %>
       >
-      <label for="show-following">Show following only</label>
+      <label for="show-following" class="cursor-pointer hover:text-green-600 transition-colors">Show following only</label>
     </form>
   <% } %>
 

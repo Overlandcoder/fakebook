@@ -1301,6 +1301,14 @@ video {
   transition-duration: 75ms;
 }
 
+.duration-200 {
+  transition-duration: 200ms;
+}
+
+.ease-out {
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+}
+
 .file\:mr-3\.5::file-selector-button {
   margin-right: 0.875rem;
 }
@@ -1396,6 +1404,11 @@ video {
   --tw-shadow: inset 0 0 0px 1000px #FFFDFB;
   --tw-shadow-colored: inset 0 0 0px 1000px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.hover\:-translate-y-0\.5:hover {
+  --tw-translate-y: -0.125rem;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .hover\:border-4:hover {
@@ -1497,6 +1510,21 @@ video {
   --tw-shadow: var(--tw-shadow-colored);
 }
 
+.hover\:drop-shadow-\[0_0_8px_rgba\(34\2c 197\2c 94\2c 0\.4\)\]:hover {
+  --tw-drop-shadow: drop-shadow(0 0 8px rgba(34,197,94,0.4));
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
+.hover\:drop-shadow-\[0_0_8px_rgba\(34\2c 197\2c 94\2c 0\.2\)\]:hover {
+  --tw-drop-shadow: drop-shadow(0 0 8px rgba(34,197,94,0.2));
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
+.hover\:drop-shadow-\[0_0_8px_rgba\(34\2c 197\2c 94\2c 0\.3\)\]:hover {
+  --tw-drop-shadow: drop-shadow(0 0 8px rgba(34,197,94,0.3));
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
 .hover\:file\:cursor-pointer::file-selector-button:hover {
   cursor: pointer;
 }
@@ -1558,6 +1586,10 @@ video {
   --tw-ring-color: rgb(34 197 94 / var(--tw-ring-opacity, 1));
 }
 
+.focus\:ring-offset-2:focus {
+  --tw-ring-offset-width: 2px;
+}
+
 .active\:scale-95:active {
   --tw-scale-x: .95;
   --tw-scale-y: .95;
@@ -1567,6 +1599,42 @@ video {
 .active\:scale-\[0\.98\]:active {
   --tw-scale-x: 0.98;
   --tw-scale-y: 0.98;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.active\:scale-90:active {
+  --tw-scale-x: .9;
+  --tw-scale-y: .9;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.active\:scale-110:active {
+  --tw-scale-x: 1.1;
+  --tw-scale-y: 1.1;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.active\:scale-150:active {
+  --tw-scale-x: 1.5;
+  --tw-scale-y: 1.5;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.active\:scale-125:active {
+  --tw-scale-x: 1.25;
+  --tw-scale-y: 1.25;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.active\:scale-75:active {
+  --tw-scale-x: .75;
+  --tw-scale-y: .75;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.active\:scale-50:active {
+  --tw-scale-x: .5;
+  --tw-scale-y: .5;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
