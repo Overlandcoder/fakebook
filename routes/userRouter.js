@@ -24,7 +24,14 @@ userRouter.get("/:username", async (req, res) => {
           orderBy: { createdAt: "desc" },
         },
         followers: { select: { id: true } },
-        _count: { select: { posts: true, followers: true, comments: true } },
+        _count: {
+          select: {
+            posts: true,
+            comments: true,
+            followers: true,
+            following: true,
+          },
+        },
       },
     });
 
@@ -85,7 +92,14 @@ userRouter.get("/", authenticatedUser, async (req, res) => {
   try {
     const allUsers = await prisma.user.findMany({
       include: {
-        _count: { select: { posts: true, followers: true, comments: true } },
+        _count: {
+          select: {
+            posts: true,
+            comments: true,
+            followers: true,
+            following: true,
+          },
+        },
       },
       orderBy: { username: "asc" },
     });
