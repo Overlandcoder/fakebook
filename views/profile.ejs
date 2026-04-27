@@ -1,26 +1,8 @@
 <%- include("partials/header") %>
 
 <main class="max-w-xl mx-auto py-8 px-4">
-  <div class="shadow-md shadow-green-200/50 rounded-md p-6 bg-white mx-auto flex justify-center items-center gap-4 sm:gap-8">
-    <h2 class="text-base sm:text-2xl font-bold text-green-600 leading-none"><%= profileUser.username %></h2>
-    <div class="self-stretch border-r-2 border-amber-200 my-1"></div>
-    <% numFollowers = profileUser._count.followers %>
-    <p class="text-gray-600 leading-none"><%= numFollowers %> <%= numFollowers === 1 ? "follower" : "followers" %></p>
-    <!-- FOLLOW/UNFOLLOW BUTTONS -->
-    <div>
-      <% if (currentUser && currentUser.id !== profileUser.id) { %>
-        <% const followBtnClasses = "px-3.5 py-1 rounded-lg transition-colors" %>
-        <% if (isFollowing) { %>
-          <form action="/users/<%= profileUser.username %>/follow?_method=DELETE" method="POST">
-            <button type="submit" class="<%= followBtnClasses %> border border-red-500 text-gray-600 hover:bg-red-600 hover:text-white">Unfollow</button>
-          </form>
-        <% } else { %>
-          <form action="/users/<%= profileUser.username %>/follow" method="POST">
-            <button type="submit" class="<%= followBtnClasses %> font-semibold bg-green-600 text-white hover:bg-green-700">Follow</button>
-          </form>
-        <% } %>
-      <% } %>
-    </div>
+  <div class="flex flex-col justify-center mb-4 pt-2 p-4 bg-white shadow rounded-lg border hover:border-green-300 hover:shadow-md transition-all">
+    <%- include("partials/user", { user: profileUser }) %>
   </div>
 
   <!-- POST SECTION -->

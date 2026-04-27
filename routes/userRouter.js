@@ -24,7 +24,7 @@ userRouter.get("/:username", async (req, res) => {
           orderBy: { createdAt: "desc" },
         },
         followers: { select: { id: true } },
-        _count: { select: { followers: true, following: true } },
+        _count: { select: { posts: true, followers: true, comments: true } },
       },
     });
 
