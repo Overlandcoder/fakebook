@@ -17,9 +17,15 @@
           </svg>
         </a>
         <a href="/users/<%= currentUser.username %>" class="flex items-center gap-2 p-1 sm:py-1 sm:px-3 rounded-full transition-colors hover:bg-green-100" title="View Profile">
-          <div class="w-8 h-8 flex items-center justify-center bg-gradient-to-tr from-green-400 to-green-700 text-white font-bold text-lg rounded-full">
-            <%= currentUser.username[0].toUpperCase() %>
-          </div>
+          <% if (currentUser.profilePhotoUrl) { %>
+            <div class="w-8 h-8 rounded-full border shadow">
+              <img src="<%= currentUser.profilePhotoUrl %>" alt="" class="w-8 h-8 rounded-full object-cover">
+            </div>
+          <% } else { %>
+            <div class="w-8 h-8 flex items-center justify-center bg-gradient-to-tr from-green-400 to-green-700 text-white font-bold text-lg rounded-full">
+              <%= currentUser.username[0].toUpperCase() %>
+            </div>
+          <% } %>
           <span class="font-semibold text-sm text-gray-700 hidden sm:block"><%= currentUser.username %></span>
         </a>
         <form action="/logout" method="POST">
