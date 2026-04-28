@@ -2,6 +2,9 @@ const { Router } = require("express");
 const userRouter = Router();
 const prisma = require("../db/prisma");
 const authenticatedUser = require("../middleware/auth");
+const { storage } = require("../storage/storage");
+const multer = require("multer");
+const upload = multer({ storage });
 
 userRouter.use(authenticatedUser);
 
@@ -109,5 +112,32 @@ userRouter.get("/", authenticatedUser, async (req, res) => {
     res.status(500).send("Error connecting to database");
   }
 });
+
+userRouter.patch(
+  "/:userId",
+  upload.single("profilePhoto"),
+  async (req, res) => {
+    const { userId } = req.params;
+    const profilePhotoUrl = req.file?.path;
+
+    // verify that request is sent from the profile's user
+    // (prevent others from changing a user's profile photo)
+    if (parseInt(userId) !== req.user.id) {
+      return res.status(403).send("Permission denied");
+    }
+
+    try {
+      await prisma.user.update({
+        where: { id: parseInt(userId) },
+        data: { profilePhotoUrl: profilePhotoUrl },
+      });
+
+      res.redirect(`/users/${req.user.username}`);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Failed to upload image");
+    }
+  }
+);
 
 module.exports = userRouter;

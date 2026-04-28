@@ -3,9 +3,15 @@
 
 <div class="flex flex-col sm:flex-row justify-between items-center gap-4 flex-wrap pt-2 px-1 mb-1">
   <div class="flex gap-2 items-center">
-    <div class="h-12 w-12 rounded-full font-semibold bg-gradient-to-tr from-green-400 to-green-700 text-white flex items-center justify-center">
-      <%= user.username[0].toUpperCase() %>
-    </div>
+    <% if (user.profilePhotoUrl) { %>
+      <div class="h-12 w-12 rounded-full border shadow">
+        <img src="<%= user.profilePhotoUrl %>" alt="" class="w-full h-full rounded-full object-cover">
+      </div>
+    <% } else { %>    
+      <div class="h-12 w-12 rounded-full font-semibold bg-gradient-to-tr from-green-400 to-green-700 text-white flex items-center justify-center">
+        <%= user.username[0].toUpperCase() %>
+      </div>
+    <% } %>
     <a href="/users/<%= user.username %>" class="text-xl text-center font-bold text-green-600 hover:text-green-500 hover:drop-shadow-[0_0_8px_rgba(34,197,94,0.3)] truncate transition-all"><%= user.username %></a>
   </div>
   <div>
@@ -20,6 +26,18 @@
           <button type="submit" class="<%= followBtnClasses %> text-sm font-semibold bg-green-600 text-white hover:bg-green-700">Follow</button>
         </form>
       <% } %>
+    <% } else if (currentUser && currentUser.id === user.id) { %>
+      <% const conditionalFontWeight = currentUser.profilePhotoUrl ? "" : "font-semibold" %>
+      <form action="/users/<%= currentUser.id %>?_method=PATCH" method="POST" enctype="multipart/form-data">
+        <input type="file" name="profilePhoto" id="profilePhoto" accept=".jpeg, .jpg, .png" onchange="this.form.submit()" class="hidden">
+        <label for="profilePhoto" class="flex items-center gap-1.5 text-amber-700 bg-amber-100/80 px-3 py-1.5 text-sm <%= conditionalFontWeight %> rounded-lg cursor-pointer hover:bg-amber-200/90 transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          <%= currentUser.profilePhotoUrl ? "Edit" : "Add" %> Photo
+        </label>
+      </form>
     <% } %>
   </div>
 </div>
