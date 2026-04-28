@@ -41,8 +41,11 @@ postRouter.delete("/:postId", async (req, res) => {
       where: { id: parseInt(postId) },
     });
 
+    // prevent server crash if post was deleted in another tab
     if (!post) return res.status(404).send("Post not found");
 
+    // verify that currentUser is the actual author
+    // (prevent non-authors from editing via something like Postman)
     if (post.authorId !== req.user.id) {
       return res.status(403).send("Permission denied - unable to delete post");
     }
@@ -67,6 +70,7 @@ postRouter.patch("/:postId", async (req, res) => {
       where: { id: parseInt(postId) },
     });
 
+    // see DELETE route above for reasoning behind these guard clauses
     if (!post) return res.status(404).send("Post not found");
 
     if (post.authorId !== req.user.id) {
@@ -78,6 +82,7 @@ postRouter.patch("/:postId", async (req, res) => {
       data: { content: content },
     });
 
+    // send updated content back to view so post card is updated immediately
     res.json({ content: updatedPost.content });
   } catch (error) {
     console.error(error);
