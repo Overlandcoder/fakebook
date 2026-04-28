@@ -3,8 +3,17 @@
   <div class="flex justify-between items-center mb-3">
     <div class="flex items-center gap-3 min-w-0">
       <a href="/users/<%= post.author.username %>"
-        class="font-bold text-green-600 px-2 py-1 rounded-full transition-colors duration-75 hover:bg-green-100 hover:text-green-700 active:scale-95 truncate">
-        <%= post.author.username %>
+        class="flex items-center gap-2 font-bold text-green-600 px-2 py-1 rounded-full transition-colors duration-75 hover:bg-green-100 hover:text-green-700 active:scale-95 truncate">
+        <% if (post.author.profilePhotoUrl) { %>
+          <div class="w-8 h-8 rounded-full border shadow">
+            <img src="<%= post.author.profilePhotoUrl %>" alt="" class="w-8 h-8 rounded-full object-cover">
+          </div>
+        <% } else { %>
+          <div class="w-8 h-8 flex items-center justify-center bg-gradient-to-tr from-green-400 to-green-700 text-white font-bold text-lg rounded-full">
+            <%= post.author.username[0].toUpperCase() %>
+          </div>
+        <% } %>
+        <span><%= post.author.username %></span>
       </a>
       <span class="text-gray-500 flex-shrink-0">
         <%= post.createdAt.toLocaleString([], { 
