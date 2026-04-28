@@ -5,11 +5,11 @@
       <a href="/users/<%= post.author.username %>"
         class="flex items-center gap-2 font-bold text-green-600 px-2 py-1 rounded-full transition-colors duration-75 hover:bg-green-100 hover:text-green-700 active:scale-95 truncate">
         <% if (post.author.profilePhotoUrl) { %>
-          <div class="w-8 h-8 rounded-full border shadow">
-            <img src="<%= post.author.profilePhotoUrl %>" alt="" class="w-8 h-8 rounded-full object-cover">
+          <div class="w-10 h-10 rounded-full border shadow">
+            <img src="<%= post.author.profilePhotoUrl %>" alt="" class="w-10 h-10 rounded-full object-cover">
           </div>
         <% } else { %>
-          <div class="w-8 h-8 flex items-center justify-center bg-gradient-to-tr from-green-400 to-green-700 text-white font-bold text-lg rounded-full">
+          <div class="w-10 h-10 flex items-center justify-center bg-gradient-to-tr from-green-400 to-green-700 text-white font-bold text-lg rounded-full">
             <%= post.author.username[0].toUpperCase() %>
           </div>
         <% } %>
@@ -94,11 +94,22 @@
   <% if (post.comments.length > 0) { %>
     <div class="mt-4 space-y-3 mb-5">
       <% post.comments.forEach(comment => { %>
-        <div class="bg-amber-50/20 shadow-sm shadow-amber-200/70 px-3 py-2 rounded-xl text-sm max-w-[85%]">
-          <a href="/users/<%= comment.author.username %>" class="text-gray-700 font-bold hover:text-green-700">
-            <%= comment.author.username %>
+        <div class="flex items-start gap-2 bg-amber-50/20 shadow-sm shadow-amber-200/70 px-3 py-2 rounded-xl max-w-[85%]">
+          <a href="/users/<%= comment.author.username %>">
+            <% if (comment.author.profilePhotoUrl) { %>
+              <div class="w-8 h-8 rounded-full border shadow">
+                <img src="<%= comment.author.profilePhotoUrl %>" alt="" class="w-8 h-8 rounded-full object-cover">
+              </div>
+            <% } else { %>
+              <div class="w-8 h-8 flex items-center justify-center bg-gradient-to-tr from-green-400 to-green-700 text-white font-bold text-lg rounded-full">
+                <%= comment.author.username[0].toUpperCase() %>
+              </div>
+            <% } %>
           </a>
-          <span class="text-gray-700 ml-1.5"><%= comment.content %></span>
+          <div class="flex flex-col gap-1">
+            <a href="/users/<%= comment.author.username %>" class="text-gray-700 font-bold hover:text-green-700 active:text-green-800"><%= comment.author.username %></a>
+            <span class="text-gray-700"><%= comment.content %></span>
+          </div>
         </div>
       <% }) %>
     </div>
