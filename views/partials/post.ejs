@@ -26,7 +26,7 @@
     </div>
 
     <!-- EDIT/DELETE BUTTONS -->
-    <% if (currentUser?.username === post.author.username) { %>
+    <% if (currentUser?.id === post.author.id) { %>
       <div class="flex gap-3.5 px-2 flex-shrink-0">
         <button class="edit-btn flex items-center text-gray-400 hover:text-amber-500 transition-colors" data-post-id="<%= post.id %>" title="Edit">
           <svg xmlns="http://w3.org" class="h-5 w-5 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -110,7 +110,7 @@
             <a href="/users/<%= comment.author.username %>" class="text-gray-700 font-bold hover:text-green-700 active:text-green-800"><%= comment.author.username %></a>
             <span class="text-gray-700"><%= comment.content %></span>
           </div>
-          <% if (currentUser.username === comment.author.username) { %>
+          <% if (currentUser.id === comment.author.id) { %>
             <form action="/posts/comments/<%= comment.id %>?_method=DELETE" method="POST">
               <button type="submit" class="text-gray-400 hover:text-red-600 transition-colors" title="Delete">
                 <svg xmlns="http://w3.org" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
