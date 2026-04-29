@@ -4,7 +4,7 @@
   <% allUsers.forEach(user => { %>
     <% const highlightSelf = user.id === currentUser.id ? "ring-2 ring-green-500 ring-offset-2 border-none" : "" %>
     <div class="border-l-2 border-transparent even:border-amber-400 flex flex-col justify-center mb-4 pt-2 p-4 bg-white shadow rounded-lg hover:border-green-300 hover:shadow-md transition-all <%= highlightSelf %>">
-      <%- include("partials/user", { user }) %>
+      <%- include("partials/user", { user, profileView: false }) %>
     </div>
   <% }) %>
 </main>

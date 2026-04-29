@@ -26,7 +26,8 @@
           <button type="submit" class="<%= followBtnClasses %> text-sm font-semibold bg-green-600 text-white hover:bg-green-700">Follow</button>
         </form>
       <% } %>
-    <% } else if (currentUser.id === user.id) { %>
+    <%# prepend profileView with locals. to prevent server crash in case profileView is not passed %>
+    <% } else if (currentUser.id === user.id && locals.profileView) { %>
       <% const conditionalFontWeight = currentUser.profilePhotoUrl ? "" : "font-semibold" %>
       <div class="flex gap-2">
         <form action="/users/<%= currentUser.id %>?_method=PATCH" method="POST" enctype="multipart/form-data">
@@ -39,7 +40,7 @@
             <%= currentUser.profilePhotoUrl ? "Edit" : "Add" %> Photo
           </label>
         </form>
-        
+
         <% if (currentUser.profilePhotoUrl) { %>
           <form action="/users/<%= currentUser.id %>?_method=DELETE" method="POST">
             <button type="submit" class="text-gray-600 bg-gray-200 px-3 py-1.5 text-sm rounded-lg hover:bg-red-600 hover:text-white transition-colors">Remove Photo</button>
