@@ -6,7 +6,7 @@
         class="flex items-center gap-2 font-bold text-green-600 px-2 py-1 rounded-full transition-colors duration-75 hover:bg-green-100 hover:text-green-700 active:scale-95 truncate">
         <% if (post.author.profilePhotoUrl) { %>
           <div class="w-10 h-10 rounded-full border shadow">
-            <img src="<%= post.author.profilePhotoUrl %>" alt="Profile photo of <%= post.author.username %>" class="w-10 h-10 rounded-full object-cover">
+            <img src="<%= post.author.profilePhotoUrl %>" alt="<%= post.author.id === currentUser.id ? 'Your profile' : post.author.username %>" class="w-10 h-10 rounded-full object-cover">
           </div>
         <% } else { %>
           <div class="w-10 h-10 flex items-center justify-center bg-gradient-to-tr from-green-400 to-green-700 text-white font-bold text-lg rounded-full">
@@ -48,7 +48,7 @@
   <!-- POST CONTENT -->
    <div class="p-2 mb-4">
     <% if (post.imageUrl) { %>
-      <img src="<%= post.imageUrl %>" alt="Post contains an image by author <%= post.author.username %>" class="mx-auto max-h-96 mb-4 rounded-md">
+      <img src="<%= post.imageUrl %>" alt="Post by <%= post.author.username %>" class="mx-auto max-h-96 mb-4 rounded-md">
     <% } %>
     <p id="content-<%= post.id %>" class="text-gray-800 text-lg"><%= post.content %></p>
    </div>
@@ -102,7 +102,7 @@
           <a href="/users/<%= comment.author.username %>">
             <% if (comment.author.profilePhotoUrl) { %>
               <div class="w-8 h-8 rounded-full border shadow">
-                <img src="<%= comment.author.profilePhotoUrl %>" alt="Profile photo of <%= comment.author.username %>" class="w-8 h-8 rounded-full object-cover">
+                <img src="<%= comment.author.profilePhotoUrl %>" alt="<%= comment.author.id === currentUser.id ? 'Your profile' : comment.author.username %>" class="w-8 h-8 rounded-full object-cover">
               </div>
             <% } else { %>
               <div class="w-8 h-8 flex items-center justify-center bg-gradient-to-tr from-green-400 to-green-700 text-white font-bold text-lg rounded-full">
