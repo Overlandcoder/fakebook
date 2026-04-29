@@ -2,6 +2,7 @@
 <% const isFollowing = followingIds.some(id => id === user.id) %>
 
 <div class="flex flex-col sm:flex-row justify-between items-center gap-4 flex-wrap pt-2 px-1 mb-1">
+  <!-- USERNAME & PROFILE PHOTO -->
   <div class="flex gap-2 items-center">
     <% if (user.profilePhotoUrl) { %>
       <div class="h-12 w-12 rounded-full border shadow">
@@ -14,8 +15,10 @@
     <% } %>
     <a href="/users/<%= user.username %>" class="text-xl text-center font-bold text-green-600 hover:text-green-500 hover:drop-shadow-[0_0_8px_rgba(34,197,94,0.3)] truncate transition-all"><%= user.username %></a>
   </div>
+
   <div>
     <% if (currentUser.id !== user.id) { %>
+      <!-- FOLLOW/UNFOLLOW BUTTONS -->
       <% const followBtnClasses = "px-3.5 py-1 rounded-lg transition-colors" %>
       <% if (isFollowing) { %>
         <form action="/users/<%= user.username %>/follow?_method=DELETE" method="POST">
@@ -28,8 +31,10 @@
       <% } %>
     <%# prepend profileView with locals. to prevent server crash in case profileView is not passed %>
     <% } else if (currentUser.id === user.id && locals.profileView) { %>
+      <!-- PHOTO ACTION BUTTONS -->
       <% const conditionalFontWeight = currentUser.profilePhotoUrl ? "" : "font-semibold" %>
       <div class="flex gap-2">
+        <!-- ADD/EDIT PHOTO BUTTONS -->
         <form action="/users/<%= currentUser.id %>?_method=PATCH" method="POST" enctype="multipart/form-data">
           <input type="file" name="profilePhoto" id="profilePhoto" accept=".jpeg, .jpg, .png" onchange="this.form.submit()" class="hidden">
           <label for="profilePhoto" class="flex items-center gap-1.5 text-amber-700 bg-amber-100/80 px-3 py-1.5 text-sm <%= conditionalFontWeight %> rounded-lg cursor-pointer hover:bg-amber-200/90 transition-colors">
@@ -42,6 +47,7 @@
         </form>
 
         <% if (currentUser.profilePhotoUrl) { %>
+          <!-- REMOVE PHOTO BUTTON -->
           <form action="/users/<%= currentUser.id %>?_method=DELETE" method="POST">
             <button type="submit" class="text-gray-600 bg-gray-200 px-3 py-1.5 text-sm rounded-lg hover:bg-red-600 hover:text-white transition-colors">Remove Photo</button>
           </form>
@@ -51,6 +57,7 @@
   </div>
 </div>
 
+<!-- USER ACTIVITY STATS -->
 <div class="flex justify-center mt-4 text-gray-600">
   <div class="flex items-center px-3 sm:px-5 gap-2 border-r <%= posts === 0 ? 'text-gray-400' : '' %>">
     <svg xmlns="http://w3.org" class="h-5 w-5" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen">
@@ -60,6 +67,7 @@
     </svg>
     <span><%= posts %></span>
   </div>
+
   <div class="flex items-center px-3 sm:px-5 gap-2 border-r <%= comments === 0 ? 'text-gray-400' : '' %>">
     <svg xmlns="http://w3.org" class="h-5 w-5" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle">
       <title>Comments</title>
@@ -67,10 +75,12 @@
     </svg>
     <span><%= comments %></span>
   </div>
+
   <div class="flex items-center px-3 sm:px-5 gap-2 border-r <%= followers === 0 ? 'text-gray-400' : '' %>">
     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" width="1em" height="1em" viewBox="0 0 16 16"><title>Followers</title><path fill="currentColor" d="M15 14s1 0 1-1s-1-4-5-4s-5 3-5 4s1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276c.593.69.758 1.457.76 1.72l-.008.002l-.014.002zM11 7a2 2 0 1 0 0-4a2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0a3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904c.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724c.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0a3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4a2 2 0 0 0 0-4"/></svg>
     <span><%= followers %></span>
   </div>
+
   <div class="flex items-center px-3 sm:px-5 gap-2 <%= following === 0 ? 'text-gray-400' : '' %>">
     <svg xmlns="http://w3.org" class="h-5 w-5" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <title>Following</title>
