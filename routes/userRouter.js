@@ -140,4 +140,25 @@ userRouter.patch(
   }
 );
 
+userRouter.delete("/:userId", async (req, res) => {
+  const { userId } = req.params;
+
+  if (parseInt(userId) !== req.user.id) {
+    return res.status(403).send("Permission denied");
+  }
+
+  try {
+    await prisma.user.update({
+      where: { id: parseInt(userId) },
+      // safer to set to null instead of empty string, so db state is truly empty
+      data: { profilePhotoUrl: null },
+    });
+
+    res.redirect(`/users/${req.user.username}`);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Failed to remove image");
+  }
+});
+
 module.exports = userRouter;
