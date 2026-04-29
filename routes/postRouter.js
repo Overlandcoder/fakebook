@@ -113,6 +113,33 @@ postRouter.post("/:postId/comments", async (req, res) => {
   }
 });
 
+postRouter.delete("/comments/:commentId", async (req, res) => {
+  const { commentId } = req.params;
+
+  try {
+    const comment = await prisma.comment.findUnique({
+      where: { id: parseInt(commentId) },
+    });
+
+    // see post DELETE route above for reasoning behind these guard clauses
+    if (!comment) return res.status(404).send("Comment not found");
+
+    if (comment.authorId !== req.user.id) {
+      return res
+        .status(403)
+        .send("Permission denied - unable to delete comment");
+    }
+
+    await prisma.comment.delete({
+      where: { id: parseInt(commentId) },
+    });
+    res.redirect("/");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Failed to delete comment");
+  }
+});
+
 postRouter.post("/:postId/likes", async (req, res) => {
   const { postId } = req.params;
 
