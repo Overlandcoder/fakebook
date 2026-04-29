@@ -6,7 +6,7 @@
         class="flex items-center gap-2 font-bold text-green-600 px-2 py-1 rounded-full transition-colors duration-75 hover:bg-green-100 hover:text-green-700 active:scale-95 truncate">
         <% if (post.author.profilePhotoUrl) { %>
           <div class="w-10 h-10 rounded-full border shadow">
-            <img src="<%= post.author.profilePhotoUrl %>" alt="" class="w-10 h-10 rounded-full object-cover">
+            <img src="<%= post.author.profilePhotoUrl %>" alt="Profile photo of <%= post.author.username %>" class="w-10 h-10 rounded-full object-cover">
           </div>
         <% } else { %>
           <div class="w-10 h-10 flex items-center justify-center bg-gradient-to-tr from-green-400 to-green-700 text-white font-bold text-lg rounded-full">
@@ -98,7 +98,7 @@
           <a href="/users/<%= comment.author.username %>">
             <% if (comment.author.profilePhotoUrl) { %>
               <div class="w-8 h-8 rounded-full border shadow">
-                <img src="<%= comment.author.profilePhotoUrl %>" alt="" class="w-8 h-8 rounded-full object-cover">
+                <img src="<%= comment.author.profilePhotoUrl %>" alt="Profile photo of <%= comment.author.username %>" class="w-8 h-8 rounded-full object-cover">
               </div>
             <% } else { %>
               <div class="w-8 h-8 flex items-center justify-center bg-gradient-to-tr from-green-400 to-green-700 text-white font-bold text-lg rounded-full">

@@ -5,7 +5,7 @@
   <div class="flex gap-2 items-center">
     <% if (user.profilePhotoUrl) { %>
       <div class="h-12 w-12 rounded-full border shadow">
-        <img src="<%= user.profilePhotoUrl %>" alt="" class="w-full h-full rounded-full object-cover">
+        <img src="<%= user.profilePhotoUrl %>" alt="Profile photo of <%= user.username %>" class="w-full h-full rounded-full object-cover">
       </div>
     <% } else { %>    
       <div class="h-12 w-12 rounded-full font-semibold bg-gradient-to-tr from-green-400 to-green-700 text-white flex items-center justify-center">
