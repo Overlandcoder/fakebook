@@ -1617,6 +1617,14 @@ video {
     margin-bottom: 0.75rem;
   }
 
+  .sm\:mb-4 {
+    margin-bottom: 1rem;
+  }
+
+  .sm\:mb-2 {
+    margin-bottom: 0.5rem;
+  }
+
   .sm\:block {
     display: block;
   }
@@ -1633,12 +1641,12 @@ video {
     justify-content: space-between;
   }
 
-  .sm\:gap-5 {
-    gap: 1.25rem;
-  }
-
   .sm\:gap-3 {
     gap: 0.75rem;
+  }
+
+  .sm\:gap-5 {
+    gap: 1.25rem;
   }
 
   .sm\:self-center {
