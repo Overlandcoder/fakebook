@@ -1,7 +1,7 @@
 <div class="max-w-xl mx-auto bg-white border-t-4 border-t-green-500 rounded-lg border shadow-md p-4 my-8 hover:border-green-300 hover:shadow-green-600/40 transition-all">
   <!-- AUTHOR INFO -->
   <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-1 sm:mb-3">
-    <div class="flex items-center gap-3 justify-between min-w-0">
+    <div class="flex flex-col sm:flex-row sm:gap-3 sm:items-center min-w-0">
       <a href="/users/<%= post.author.username %>"
         class="flex items-center gap-2 font-bold text-green-600 px-2 py-1 rounded-full transition-colors duration-75 hover:bg-green-100 hover:text-green-700 active:scale-95 truncate">
         <% if (post.author.profilePhotoUrl) { %>
@@ -15,7 +15,7 @@
         <% } %>
         <span><%= post.author.username %></span>
       </a>
-      <span class="text-gray-500 pr-2 text-sm flex-shrink-0">
+      <span class="text-gray-500 px-2 text-sm flex-shrink-0">
         <%= post.createdAt.toLocaleString([], { 
           month: 'short', 
           day: 'numeric', 
