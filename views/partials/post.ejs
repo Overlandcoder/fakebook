@@ -132,9 +132,9 @@
 
   <!-- NEW COMMENT FORM -->
   <% if (currentUser) { %>
-    <form action="/posts/<%= post.id %>/comments" method="POST" class="flex gap-3 mt-4 mb-2">
+    <form action="/posts/<%= post.id %>/comments" method="POST" class="flex flex-wrap gap-3 mt-4 mb-2">
       <input type="text" name="content" placeholder="Write a comment..." class="flex-grow shadow border border-gray-300 rounded-full px-4 py-2 text-sm outline-none focus:ring-1 focus:border-transparent focus:ring-green-400">
-      <button type="submit" class="text-green-600 font-semibold px-3 rounded-md hover:bg-green-100 hover:text-green-700 transition-colors">Post</button>
+      <button type="submit" class="ml-auto text-green-600 font-semibold px-3 rounded-md hover:bg-green-100 hover:text-green-700 transition-colors">Post</button>
     </form>
   <% } %>
 </div>
