@@ -1,0 +1,41 @@
+<%- include("partials/header") %>
+
+<main class="max-w-lg mx-auto mt-4 px-6 py-4 sm:px-4">
+  <h2 class="text-2xl text-gray-800 font-bold mb-4">Follow Requests</h2>
+
+  <% if (requests.length > 0) { %>
+    <% requests.forEach(request => { %>
+      <% const sender = request.sender %>
+      <div class="flex items-center rounded-xl shadow justify-between mb-4 bg-white p-4">
+        <div class="flex gap-2 items-center">
+          <% if (sender.profilePhotoUrl) { %>
+            <div class="h-12 w-12 rounded-full border shadow">
+              <img src="<%= sender.profilePhotoUrl %>" alt="<%= sender.id === currentUser.id ? 'Your profile' : sender.username %>" class="w-full h-full rounded-full object-cover">
+            </div>
+          <% } else { %>    
+            <div class="h-12 w-12 rounded-full font-semibold bg-gradient-to-tr from-green-400 to-green-700 text-white flex items-center justify-center">
+              <%= sender.username[0].toUpperCase() %>
+            </div>
+          <% } %>
+          <a href="/users/<%= sender.username %>" class="text-xl text-center font-bold text-green-600 hover:text-green-500 hover:drop-shadow-[0_0_8px_rgba(34,197,94,0.3)] truncate transition-all"><%= sender.username %></a>
+        </div>
+
+        <div class="flex gap-4">
+          <form action="/users/<%= sender.username %>/follow-request/accept" method="POST">
+            <button type="submit" class="px-3.5 py-1 rounded-lg text-sm font-semibold bg-green-600 text-white hover:bg-green-700 transition-colors">Accept</button>
+          </form>
+
+          <form action="/users/<%= sender.username %>/follow-request/decline?_method=DELETE" method="POST">
+            <button type="submit" class="px-3.5 py-1 rounded-lg text-sm font-semibold bg-amber-600 text-white hover:bg-red-600 hover:text-white transition-colors">Decline</button>
+          </form>
+        </div>
+      </div>
+    <% }) %>
+  <% } else { %>
+    <div class="mt-10 py-8 bg-white border border-amber-200 rounded-lg">
+      <p class="italic text-gray-500 text-lg text-center">No follow requests at this time.</p>
+    </div>
+  <% } %>
+</main>
+
+<%- include("partials/footer") %>
