@@ -45,11 +45,7 @@ userRouter.get("/:username", async (req, res) => {
       return res.status(404).send("User not found");
     }
 
-    const isFollowing = req.user
-      ? profileUser.followers.some((f) => f.id === req.user.id)
-      : false;
-
-    res.render("profile", { profileUser, isFollowing });
+    res.render("profile", { profileUser });
   } catch (error) {
     console.error(error);
     res.status(500).send("Server error");
