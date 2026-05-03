@@ -575,6 +575,11 @@ video {
   margin-right: auto;
 }
 
+.my-2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
 .my-8 {
   margin-top: 2rem;
   margin-bottom: 2rem;
@@ -1617,12 +1622,12 @@ video {
     margin-bottom: 0.75rem;
   }
 
-  .sm\:mb-4 {
-    margin-bottom: 1rem;
+  .sm\:ml-auto {
+    margin-left: auto;
   }
 
-  .sm\:mb-2 {
-    margin-bottom: 0.5rem;
+  .sm\:mr-0 {
+    margin-right: 0px;
   }
 
   .sm\:block {
