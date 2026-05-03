@@ -32,12 +32,18 @@ app.use(async (req, res, next) => {
   if (req.user) {
     const user = await prisma.user.findUnique({
       where: { id: req.user.id },
-      select: { following: { select: { id: true } } },
+      select: {
+        following: { select: { followedId: true } },
+        followRequestsReceived: true,
+      },
     });
 
-    const followingIds = user.following.map((f) => f.id);
-
+    const followingIds = user.following.map((f) => f.followedId);
     res.locals.followingIds = followingIds;
+    res.locals.currentUser = {
+      ...req.user,
+      followRequestsReceived: user.followRequestsReceived,
+    };
   }
 
   next();
