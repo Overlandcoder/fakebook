@@ -23,15 +23,15 @@
       <!-- FOLLOW/UNFOLLOW BUTTONS -->
       <% const followBtnClasses = "px-3.5 py-1 rounded-lg transition-colors" %>
       <% if (isFollowing) { %>
-        <form action="/users/<%= user.username %>/follow?_method=DELETE" method="POST">
+        <form action="/users/<%= user.username %>/follow?_method=DELETE" method="POST" data-scroll-restore>
           <button type="submit" class="<%= followBtnClasses %> text-sm font-semibold bg-amber-600 text-white hover:bg-red-600 hover:text-white">Unfollow</button>
         </form>
       <% } else if (hasSentRequest) { %>
-        <form action="/users/<%= user.username %>/follow-request?_method=DELETE" method="POST">
+        <form action="/users/<%= user.username %>/follow-request?_method=DELETE" method="POST" data-scroll-restore>
           <button type="submit" class="<%= followBtnClasses %> text-sm font-semibold bg-amber-600 text-white hover:bg-red-600 hover:text-white">Cancel Request</button>
         </form>
       <% } else { %>
-        <form action="/users/<%= user.username %>/follow-request" method="POST">
+        <form action="/users/<%= user.username %>/follow-request" method="POST" data-scroll-restore>
           <button type="submit" class="<%= followBtnClasses %> text-sm font-semibold bg-green-600 text-white hover:bg-green-700">Follow</button>
         </form>
       <% } %>
@@ -66,11 +66,11 @@
 <!-- ACCEPT/DECLINE REQUEST BUTTONS -->
 <% if (hasReceivedRequest) { %>
   <div class="flex gap-4 my-2 px-1 mx-auto sm:ml-auto sm:mr-0">
-    <form action="/users/<%= user.username %>/follow-request/accept" method="POST">
+    <form action="/users/<%= user.username %>/follow-request/accept" method="POST" data-scroll-restore>
       <button type="submit" class="px-3.5 py-1 rounded-lg text-sm font-semibold bg-green-600 text-white hover:bg-green-700 transition-colors">Accept Request</button>
     </form>
 
-    <form action="/users/<%= user.username %>/follow-request/decline?_method=DELETE" method="POST">
+    <form action="/users/<%= user.username %>/follow-request/decline?_method=DELETE" method="POST" data-scroll-restore>
       <button type="submit" class="px-3.5 py-1 rounded-lg text-sm font-semibold bg-amber-600 text-white hover:bg-red-600 hover:text-white transition-colors">Decline Request</button>
     </form>
   </div>

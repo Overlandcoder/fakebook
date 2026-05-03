@@ -8,3 +8,22 @@
   </head>
   <body class="bg-gray-50">
     <%- include("navbar") %>
+    <script>
+      // If a form with "data-scroll-restore" attribute is submitted,
+      // save vertical scroll position
+      document.addEventListener("submit", (e) => {
+        if (e.target.hasAttribute("data-scroll-restore")) {
+          sessionStorage.setItem("scrollPosition", window.scrollY);
+        }
+      });
+
+      // When a page loads, if a saved position exists, scroll to that position
+      document.addEventListener("DOMContentLoaded", () => {
+        const scrollPosition = sessionStorage.getItem("scrollPosition");
+        if (scrollPosition !== null) {
+          window.scrollTo(0, parseInt(scrollPosition, 10));
+          sessionStorage.removeItem("scrollPosition");
+        }
+      });
+    </script>
+    
