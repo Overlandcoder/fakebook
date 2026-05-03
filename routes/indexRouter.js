@@ -7,7 +7,7 @@ const authenticatedUser = require("../middleware/auth");
 
 indexRouter.get("/", authenticatedUser, async (req, res) => {
   const showFollowing = req.query?.showFollowing === "on";
-  const followingIds = req.user?.following?.map((f) => f.id);
+  const followingIds = req.user?.following?.map((f) => f.followedId);
 
   try {
     const allPosts = await prisma.post.findMany({
