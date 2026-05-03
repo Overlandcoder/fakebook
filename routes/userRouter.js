@@ -8,6 +8,21 @@ const upload = multer({ storage });
 
 userRouter.use(authenticatedUser);
 
+// placed this route above the "/:username" route (which is directly below)
+// this prevents Express from thinking that "notifications" is a username
+userRouter.get("/notifications", async (req, res) => {
+  try {
+    const requests = await prisma.followRequest.findMany({
+      where: { receiverId: req.user.id },
+      include: { sender: true },
+    });
+    res.render("notifications", { requests });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Failed to retrieve friend requests");
+  }
+});
+
 userRouter.get("/:username", async (req, res) => {
   const { username } = req.params;
 
